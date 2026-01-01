@@ -123,6 +123,9 @@
             <!-- Se inyecta por JS -->
         </div>
         <div class="flex gap-2">
+            <!-- AQUÍ ESTÁ EL BOTÓN DE INFORMACIÓN -->
+            <button onclick="openInfoModal()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 text-[#2C3E36] hover:bg-gray-50 transition-colors"><i data-lucide="info" class="w-5 h-5"></i></button>
+            
             <button onclick="toggleRole()" class="text-[10px] font-bold uppercase tracking-wide opacity-50 hover:opacity-100 bg-white/50 px-3 py-1 rounded-lg border border-black/5 transition-all">Vista</button>
             <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center relative"><i data-lucide="bell" class="w-5 h-5 opacity-70"></i><span class="absolute top-2.5 right-3 w-2 h-2 bg-[#E66C48] rounded-full border border-white"></span></button>
         </div>
@@ -147,6 +150,62 @@
         <div class="bg-[#f4f1ea] rounded-[4px] w-full max-w-lg h-[90vh] shadow-2xl relative flex flex-col overflow-hidden border-8 border-double border-gray-800">
             <div class="flex-1 overflow-y-auto" id="modal-content"></div>
             <button onclick="closeMaterialModal()" class="absolute top-4 right-4 bg-black text-white rounded-full p-2 hover:scale-110 transition shadow-lg z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+    </div>
+
+    <!-- MODAL INFO TFM (NUEVO) -->
+    <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-6 fade-in">
+        <div class="bg-white rounded-3xl w-full max-w-md max-h-[85vh] shadow-2xl relative flex flex-col overflow-hidden border border-white/50">
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-[#2C3E36] rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg transform rotate-3">
+                        <i data-lucide="sprout" class="w-8 h-8 text-[#9FB8AD]"></i>
+                    </div>
+                    <h2 class="font-heading text-xl font-bold text-[#2C3E36] leading-tight mb-1">Eco-OS</h2>
+                    <p class="text-[9px] uppercase tracking-widest text-[#E66C48] font-bold">Plataforma Educativa de Sostenibilidad Aumentada</p>
+                </div>
+
+                <div class="space-y-6 text-sm text-gray-600">
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-center">
+                        <p class="italic text-xs leading-relaxed">
+                            "Prototipo de aplicación web progresiva (PWA) diseñado como herramienta didáctica y de gestión para la asignatura de Educación Plástica, Visual y Audiovisual (EPVA)."
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-[#2C3E36] uppercase text-[10px] tracking-wider mb-3 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-3 h-3"></i> Ficha Técnica del Proyecto</h3>
+                        <div class="bg-white border border-gray-100 rounded-xl p-3 shadow-sm">
+                            <ul class="space-y-2 text-xs">
+                                <li class="flex justify-between border-b border-gray-50 pb-1"><span>Autora:</span> <strong class="text-gray-800">Marian Diaz Lindholm</strong></li>
+                                <li class="flex justify-between border-b border-gray-50 pb-1"><span>Titulación:</span> <strong class="text-gray-800 text-right">Máster Prof. Secundaria (VIU)</strong></li>
+                                <li class="flex justify-between border-b border-gray-50 pb-1"><span>Especialidad:</span> <strong class="text-gray-800">Dibujo</strong></li>
+                                <li class="flex justify-between"><span>Curso:</span> <strong class="text-gray-800">2025-2026 (1ª Conv.)</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-[#2C3E36] uppercase text-[10px] tracking-wider mb-3 flex items-center gap-2"><i data-lucide="lightbulb" class="w-3 h-3"></i> Descripción de la Herramienta</h3>
+                        <p class="text-xs mb-3 text-justify">Eco-OS actúa como un "sistema operativo de aula" que hibrida la gestión académica con una narrativa inmersiva basada en la alquimia.</p>
+                        <ul class="space-y-2 text-xs pl-2 border-l-2 border-[#E66C48]">
+                            <li><strong>Gestión de Identidad:</strong> Perfiles gamificados con roles de gremio.</li>
+                            <li><strong>Bitácora Metacognitiva:</strong> Registro del clima emocional y "Semillas" de aprendizaje.</li>
+                            <li><strong>Evaluación Formativa:</strong> Rúbricas interactivas y feedback cualitativo.</li>
+                            <li><strong>Biblioteca:</strong> Recursos y "cuaderno de campo científico".</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-[#2C3E36] text-white p-5 rounded-2xl text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-[#E66C48]"></div>
+                        <h3 class="font-bold uppercase text-[10px] opacity-80 mb-2 tracking-widest">⚖️ Licencia y Derechos</h3>
+                        <p class="text-xs font-bold mb-3">© 2026 Marian Diaz Lindholm</p>
+                        <p class="text-[9px] opacity-70 leading-relaxed mb-2">Este software ha sido desarrollado exclusivamente con fines académicos como parte de un TFM.</p>
+                        <p class="text-[9px] opacity-60 italic">Uso académico permitido citando autoría y universidad. Prohibida comercialización.</p>
+                        <div class="mt-3 pt-3 border-t border-white/10 text-[9px] opacity-40">Desarrollado en Palma, Illes Balears.</div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeInfoModal()" class="absolute top-4 right-4 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition z-50"><i data-lucide="x" class="w-4 h-4 text-gray-600"></i></button>
         </div>
     </div>
 
@@ -537,6 +596,11 @@
             }
         }
         function closeMaterialModal() { document.getElementById('material-modal').classList.add('hidden'); }
+        
+        // --- FUNCIONES INFO MODAL (NUEVO) ---
+        function openInfoModal() { document.getElementById('info-modal').classList.remove('hidden'); }
+        function closeInfoModal() { document.getElementById('info-modal').classList.add('hidden'); }
+
         function saveEco() { showToast('¡Idea plantada!'); document.getElementById('xp-bar').style.width = '85%'; }
         function triggerUpload() { showToast('Cámara abierta. Sube tu evidencia...'); }
         function showToast(msg) {
