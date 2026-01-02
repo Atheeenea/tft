@@ -6,6 +6,8 @@
     <title>Eco-OS | Plataforma Educativa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Markdown Parser para las respuestas de la IA -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* --- TIPOGRAFÍAS --- */
         /* Interfaz Moderna (App) */
@@ -89,18 +91,6 @@
         .trimestre-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-top: 24px; margin-bottom: 8px; padding-left: 4px; letter-spacing: 1px; }
         .locked-up { padding: 12px; margin-bottom: 8px; background-color: #Fcfcfc; border-radius: 12px; border: 1px dashed #E0E5E2; color: #A0AEC0; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* --- ESTILO CIENTÍFICO (CSS del Grimorio 2) --- */
-        .sci-sheet { background-color: var(--paper); font-family: 'Cormorant Garamond', serif; color: var(--ink); padding: 30px; background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 20px 20px; height: 100%; overflow-y: auto; }
-        .sci-h1 { font-size: 2rem; font-weight: 700; text-transform: uppercase; text-align: center; border-bottom: 3px double var(--ink); padding-bottom: 10px; margin-bottom: 20px; line-height: 1; letter-spacing: 0.05em; }
-        .sci-h2 { font-family: 'Courier Prime', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--ink); display: inline-block; margin-bottom: 10px; }
-        .sci-hand { font-family: 'Reenie Beanie', cursive; color: var(--highlight); font-size: 1.6rem; transform: rotate(-2deg); }
-        .sci-box { border: 2px solid var(--ink); padding: 15px; background: rgba(255,255,255,0.6); margin-bottom: 15px; position: relative; }
-        .sci-label { font-family: 'Courier Prime', monospace; font-size: 0.6rem; text-transform: uppercase; background: var(--paper); padding: 0 5px; position: absolute; top: -8px; left: 10px; }
-        .sci-mono { font-family: 'Courier Prime', monospace; font-size: 0.75rem; }
-        .sci-icon { stroke-width: 1.5; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
-        .sci-guide-line { border-top: 1px dashed var(--pencil); position: relative; margin: 10px 0; }
-        .sci-guide-line::after { content: 'fig.'; position: absolute; right: 0; top: -8px; font-family: 'Courier Prime', monospace; font-size: 0.5rem; color: var(--pencil); }
-
         /* Estilos Profesor */
         .teacher-mode { --primary: #374151; --accent: #6366F1; --bg-app: #F3F4F6; }
         .dropzone { border: 2px dashed #CBD5E1; border-radius: 16px; padding: 24px; text-align: center; background: #F8FAFC; cursor: pointer; transition: all 0.3s; }
@@ -113,6 +103,14 @@
         /* Botón Upload */
         .student-upload-btn { background-color: var(--primary); color: white; width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; cursor: pointer; transition: 0.2s; }
         .student-upload-btn:hover { opacity: 0.9; }
+
+        /* Estilos IA */
+        .ai-response-box { background: linear-gradient(135deg, #FFF 0%, #F5F3FF 100%); border: 1px solid #E0E7FF; padding: 15px; border-radius: 16px; margin-top: 15px; display: none; }
+        .ai-typing { display: flex; gap: 5px; justify-content: center; padding: 10px; }
+        .ai-dot { width: 8px; height: 8px; background: #6366F1; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .ai-dot:nth-child(1) { animation-delay: -0.32s; }
+        .ai-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -123,7 +121,7 @@
             <!-- Se inyecta por JS -->
         </div>
         <div class="flex gap-2" id="header-actions">
-            <!-- BOTÓN MODO FOTO (NUEVO) -->
+            <!-- BOTÓN MODO FOTO -->
             <button onclick="togglePhotoMode(); event.stopPropagation();" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 text-[#2C3E36] hover:bg-gray-50 transition-colors" title="Modo Foto: Ocultar Menú"><i data-lucide="camera" class="w-5 h-5"></i></button>
 
             <!-- BOTÓN INFO TFM -->
@@ -156,7 +154,7 @@
         </div>
     </div>
 
-    <!-- MODAL INFO TFM (NUEVO) -->
+    <!-- MODAL INFO TFM -->
     <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-6 fade-in">
         <div class="bg-white rounded-3xl w-full max-w-md max-h-[85vh] shadow-2xl relative flex flex-col overflow-hidden border border-white/50">
             <div class="p-6 overflow-y-auto no-scrollbar">
@@ -216,6 +214,93 @@
     <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 text-sm font-medium z-50 transition-all duration-300 transform -translate-y-20 opacity-0"><i data-lucide="check-circle" class="w-4 h-4 text-white"></i><span id="toast-msg">Guardado</span></div>
 
     <script>
+        // --- GEMINI API INTEGRATION ---
+        const apiKey = ""; // La clave será proporcionada por el entorno
+
+        async function callGemini(promptText) {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptText }] }]
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API Error');
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Gemini Error:", error);
+                return "El oráculo está nublado. Inténtalo de nuevo.";
+            }
+        }
+
+        // --- FUNCIÓN DE FEEDBACK DOCENTE (REEMPLAZA A POLINIZAR) ---
+        function requestFeedback() {
+            const input = document.querySelector('.input-eco');
+            if(!input.value.trim()) {
+                showToast("Escribe tu reflexión primero...");
+                return;
+            }
+            
+            // Simulación de envío
+            const btn = document.getElementById('btn-feedback');
+            btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 mr-2"></i><span>Enviado al Maestro</span>';
+            btn.classList.remove('from-indigo-500', 'to-purple-600');
+            btn.classList.add('bg-green-600');
+            btn.disabled = true;
+            
+            showToast("📨 Solicitud enviada correctamente");
+            lucide.createIcons();
+            
+            // Reset visual después de unos segundos
+            setTimeout(() => {
+                btn.innerHTML = '<i data-lucide="send" class="w-4 h-4 mr-2"></i><span class="text-xs font-bold uppercase tracking-wide">📨 Solicitar Feedback Docente</span>';
+                btn.classList.add('from-indigo-500', 'to-purple-600');
+                btn.classList.remove('bg-green-600');
+                btn.disabled = false;
+                lucide.createIcons();
+            }, 3000);
+        }
+
+        async function generatePrompt() {
+            const input = document.getElementById('prompt-idea-input');
+            const output = document.getElementById('prompt-output');
+            const loader = document.getElementById('prompt-loader');
+            const btn = document.getElementById('btn-generate-prompt');
+            
+            if(!input.value.trim()) {
+                showToast("Describe tu idea primero...");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            output.classList.remove('hidden');
+            output.innerHTML = '<div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>';
+
+            const prompt = `Actúa como un experto en ingeniería de prompts para arte generativo (Midjourney/Stable Diffusion). 
+            Tu tarea es convertir esta idea básica de un alumno: "${input.value}" en un PROMPT detallado y profesional en INGLÉS.
+            
+            Debes enriquecerlo especificando:
+            - Sujeto principal (definido claramente).
+            - Materiales (ej. plástico reciclado, cartón, metal oxidado, cristal).
+            - Estilo artístico (ej. escultura cinética, cyberpunk, macro photography, hyperrealistic).
+            - Iluminación y atmósfera (ej. cinematic lighting, foggy, studio light).
+            
+            Devuelve SOLO el prompt en inglés, sin explicaciones adicionales.`;
+
+            const response = await callGemini(prompt);
+            
+            output.innerHTML = `<div class="p-3 bg-gray-100 rounded-lg border border-gray-200 text-xs font-mono text-gray-600 break-words select-all">${response}</div>
+            <button onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText); showToast('Copiado al portapapeles')" class="mt-2 w-full py-2 bg-black text-white rounded-lg text-[10px] font-bold uppercase">Copiar Prompt</button>`;
+            
+            btn.disabled = false;
+            btn.classList.remove('opacity-50');
+            showToast("🔮 Visión revelada");
+        }
+
         // ==========================================
         // 1. DATA: LÁMINAS CIENTÍFICAS (HTML PURO)
         // ==========================================
@@ -432,7 +517,7 @@
                     <div class="card-modern p-6"><div class="flex items-center justify-between mb-2"><h3 class="font-heading font-bold text-sm">Compromiso Ético</h3><div class="flex items-center gap-1.5 text-[10px] font-bold text-[#2E5C38] bg-[#D4E2D4] px-2 py-1 rounded-md"><i data-lucide="shield-check" class="w-3 h-3"></i> ACTIVO</div></div><p class="text-xs text-gray-500 mb-4 leading-tight italic border-l-2 border-[#E66C48] pl-2">"Prometo cuidar las herramientas como mi propia mano, respetar el material del gremio y no dejar huella negativa en el entorno."</p></div>`,
                 eco: `
                     <h2 class="font-heading text-xl font-bold mb-4">Diario de Campo</h2><div class="flex p-1 bg-white rounded-full border border-gray-100 mb-6 w-fit mx-auto shadow-sm"><button onclick="switchTab('register')" class="pill-tab active" id="tab-register">Hoy</button><button onclick="switchTab('nursery')" class="pill-tab" id="tab-nursery">Mi Vivero</button></div>
-                    <div id="content-register" class="fade-in"><div class="card-modern p-6 space-y-6"><div><label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 text-center">¿Cuál es tu Clima Interior?</label><div class="flex justify-between gap-2 px-2"><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">☁️</div><span class="text-[9px]">Nublado</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">☀️</div><span class="text-[9px]">Sol</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">⚡</div><span class="text-[9px]">Rayo</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">🌱</div><span class="text-[9px]">Crece</span></label></div></div><div><label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">La Semilla</label><textarea class="input-eco min-h-[120px] resize-none" placeholder="Hoy he aprendido..."></textarea></div><button onclick="triggerUpload('Imágenes del Día')" class="w-full flex items-center justify-center p-3 bg-white border border-dashed border-gray-300 rounded-xl hover:border-[#E66C48] hover:bg-[#FFF4E6] transition-all text-center group mb-4"><span class="text-xs font-bold text-gray-600 group-hover:text-[#E66C48] mr-2">Subir Imágenes del Día</span><i data-lucide="camera" class="w-4 h-4 text-gray-300 group-hover:text-[#E66C48]"></i></button><button onclick="saveEco()" class="w-full py-4 rounded-2xl bg-[#2C3E36] text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2"><span>Plantar Idea</span><i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div>
+                    <div id="content-register" class="fade-in"><div class="card-modern p-6 space-y-6"><div><label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 text-center">¿Cuál es tu Clima Interior?</label><div class="flex justify-between gap-2 px-2"><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">☁️</div><span class="text-[9px]">Nublado</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">☀️</div><span class="text-[9px]">Sol</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">⚡</div><span class="text-[9px]">Rayo</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">🌱</div><span class="text-[9px]">Crece</span></label></div></div><div><label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">La Semilla</label><textarea class="input-eco min-h-[120px] resize-none" placeholder="Hoy he aprendido..."></textarea></div><div class="mt-4 mb-4"><button id="btn-feedback" onclick="requestFeedback()" class="w-full flex items-center justify-center p-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all transform active:scale-95 group mb-2"><i data-lucide="send" class="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform"></i><span class="text-xs font-bold uppercase tracking-wide">📨 Solicitar Feedback Docente</span></button></div><button onclick="triggerUpload('Imágenes del Día')" class="w-full flex items-center justify-center p-3 bg-white border border-dashed border-gray-300 rounded-xl hover:border-[#E66C48] hover:bg-[#FFF4E6] transition-all text-center group mb-4"><span class="text-xs font-bold text-gray-600 group-hover:text-[#E66C48] mr-2">Subir Imágenes del Día</span><i data-lucide="camera" class="w-4 h-4 text-gray-300 group-hover:text-[#E66C48]"></i></button><button onclick="saveEco()" class="w-full py-4 rounded-2xl bg-[#2C3E36] text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2"><span>Plantar Idea</span><i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div>
                     <div id="content-nursery" class="hidden fade-in"><div class="relative w-full h-48 rounded-[32px] overflow-hidden mb-6 shadow-lg group"><img src="https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6"><div><p class="text-[10px] text-white/80 font-bold uppercase tracking-widest mb-1">Registro Personal</p><h3 class="text-white font-heading font-bold text-lg">Vivero de Reflexiones</h3></div></div></div><div class="grid grid-cols-2 gap-3" id="plant-grid"><div class="card-modern p-4 border-l-4 border-l-green-500"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mb-3">🌱</div><p class="text-[10px] text-gray-400 font-bold mb-1">12 OCT</p><p class="text-xs font-bold text-gray-800 line-clamp-2">El plástico puede ser poético...</p></div></div></div>`,
                 rubric: `
                     <h2 class="font-heading text-xl font-bold mb-6">Expediciones en Curso</h2>
@@ -462,18 +547,12 @@
                                 </div>
                             </div>
 
-                            <!-- UP 3 (DESBLOQUEADA) -->
-                            <div class="card-modern overflow-hidden mb-3 border-l-4 border-l-[#E66C48]">
-                                <div class="p-4 bg-white border-b border-gray-100 flex justify-between items-center"><div><h4 class="font-bold text-sm">UP 3. Cartografías de nuestro consumo</h4><span class="badge badge-progress">Pendiente</span></div></div>
-                                
-                                <!-- SA 3.1 -->
-                                <details class="group border-b border-gray-50"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 3.1. Mi huella visual</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><div class="p-4 text-xs text-gray-500 italic">Rúbrica en desarrollo...</div>${autoEvalTemplate}${createUploads([{name:'Registro de Marcas', icon:'📝'}, {name:'Reflexión', icon:'🧠'}])}</div></details>
-                                
-                                <!-- SA 3.2 -->
-                                <details class="group border-b border-gray-50"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 3.2. Collage de consumo</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><div class="p-4 text-xs text-gray-500 italic">Rúbrica en desarrollo...</div>${autoEvalTemplate}${createUploads([{name:'Foto Collage Final', icon:'🖼️'}])}</div></details>
-
-                                <!-- SA 3.3 -->
-                                <details class="group"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 3.3. Postal Solidaria (Transversal)</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><div class="p-4 text-xs text-gray-500 italic">Rúbrica en desarrollo...</div>${autoEvalTemplate}${createUploads([{name:'Diseño Postal', icon:'✉️'}, {name:'Mensaje', icon:'✍️'}])}</div></details>
+                            <!-- UP 3 (BLOQUEADA) -->
+                            <div class="px-2 space-y-2 opacity-50">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 3. Cartografías de nuestro consumo</span><span class="text-[9px] uppercase">SA 3.1, SA 3.2, SA 3.3</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
                             </div>
                         </div>
 
@@ -498,7 +577,16 @@
                                 <details class="group border-b border-gray-100" open><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.1. Laboratorio de Materiales</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Ingeniería</td><td class="level-4">El tótem es autoportante, robusto y desafía la gravedad con equilibrio complejo. Uniones ingeniosas.</td><td>El tótem se mantiene en pie por sí mismo. Las uniones son correctas y funcionales.</td><td>El tótem necesita apoyos externos para no caer o es muy frágil al tacto.</td></tr><tr><td class="col-criterio">Reciclaje</td><td class="level-4">Transformación radical del residuo: no parece "basura". Exploración profunda de las propiedades físicas.</td><td>Buen uso del material reciclado. Se nota intencionalidad en la selección de formas.</td><td>El material se reconoce demasiado (ej: una botella es solo una botella). Poca transformación.</td></tr><tr><td class="col-criterio">Hapticidad</td><td class="level-4">La obra ofrece un recorrido táctil rico y seguro (sin aristas cortantes). Pensada para ser "leída".</td><td>Texturas interesantes y seguras al tacto. Cumple con la accesibilidad básica.</td><td>Algunas zonas son interesantes al tacto, pero otras son planas o presentan riesgos.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Fotos Prototipos', icon:'🏗️'}, {name:'Foto Tótem Físico', icon:'🗿'}])}</div></details>
                                 
                                 <!-- 5.2 -->
-                                <details class="group border-b border-gray-100"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.2. El Oráculo de Gaia</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Prompting</td><td class="level-4">El prompt redactado es descriptivo, rico en adjetivos y referencias estilísticas. Imagen IA sorprendente.</td><td>El prompt es correcto y genera una imagen coherente con la escultura.</td><td>El prompt es muy básico (pocas palabras). La imagen IA tiene poca relación con la obra.</td></tr><tr><td class="col-criterio">Hibridación</td><td class="level-4">La vinculación en Artivive es perfecta. La capa digital expande el significado de la obra física.</td><td>La RA funciona correctamente. Hay relación visual entre lo físico y lo digital.</td><td>La RA funciona a veces o la imagen digital tapa por completo la escultura sin sentido.</td></tr><tr><td class="col-criterio">Defensa</td><td class="level-4">Argumentación brillante durante "La caída del oráculo". Vocabulario técnico preciso. Gran resiliencia.</td><td>Explica su obra con claridad y usa vocabulario correcto. Se adapta bien al "fallo".</td><td>Le cuesta explicar su obra sin el soporte visual. Vocabulario pobre o inseguridad.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Imagen IA (Prompt)', icon:'✨'}, {name:'Video Captura RA', icon:'📹'}, {name:'Audio-etiqueta', icon:'🎙️'}])}</div></details>
+                                <details class="group border-b border-gray-100" open><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.2. El Oráculo de Gaia</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Prompting</td><td class="level-4">El prompt redactado es descriptivo, rico en adjetivos y referencias estilísticas. Imagen IA sorprendente.</td><td>El prompt es correcto y genera una imagen coherente con la escultura.</td><td>El prompt es muy básico (pocas palabras). La imagen IA tiene poca relación con la obra.</td></tr><tr><td class="col-criterio">Hibridación</td><td class="level-4">La vinculación en Artivive es perfecta. La capa digital expande el significado de la obra física.</td><td>La RA funciona correctamente. Hay relación visual entre lo físico y lo digital.</td><td>La RA funciona a veces o la imagen digital tapa por completo la escultura sin sentido.</td></tr><tr><td class="col-criterio">Defensa</td><td class="level-4">Argumentación brillante durante "La caída del oráculo". Vocabulario técnico preciso. Gran resiliencia.</td><td>Explica su obra con claridad y usa vocabulario correcto. Se adapta bien al "fallo".</td><td>Le cuesta explicar su obra sin el soporte visual. Vocabulario pobre o inseguridad.</td></tr></tbody></table>${autoEvalTemplate}
+                                <!-- HERRAMIENTA IA DE PROMPTS -->
+                                <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-xl mb-4 mx-3">
+                                    <h5 class="text-xs font-bold text-indigo-700 uppercase mb-2 flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> Oráculo de Gaia (IA)</h5>
+                                    <textarea id="prompt-idea-input" class="w-full text-xs p-2 border border-indigo-200 rounded-lg bg-white mb-2" rows="2" placeholder="Escribe tu idea básica aquí (ej: un pez hecho de botellas de plástico)..."></textarea>
+                                    <div id="prompt-output" class="hidden mb-2"></div>
+                                    <div id="prompt-loader" class="ai-typing hidden"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+                                    <button id="btn-generate-prompt" onclick="generatePrompt()" class="w-full py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-bold uppercase shadow-sm hover:bg-indigo-700 transition-colors">✨ Generar Prompt Mágico</button>
+                                </div>
+                                ${createUploads([{name:'Imagen IA (Prompt)', icon:'✨'}, {name:'Video Captura RA', icon:'📹'}, {name:'Audio-etiqueta', icon:'🎙️'}])}</div></details>
                                 
                                 <!-- 5.3 -->
                                 <details class="group"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.3. Exposición Aumentada: Voces de la Tierra</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Rol</td><td class="level-4">Liderazgo positivo. Cumple sus tareas con excelencia y ayuda a otros roles. Autonomía total.</td><td>Cumple correctamente con las tareas de su rol asignado. Buena autonomía.</td><td>Necesita supervisión constante para cumplir su tarea o interfiere en otros roles.</td></tr><tr><td class="col-criterio">Montaje</td><td class="level-4">El espacio expositivo está cuidado al detalle. Cartelas perfectas, códigos QR legibles, recorrido fluido.</td><td>Montaje limpio y ordenado. Los QR funcionan y las obras están seguras.</td><td>Montaje algo descuidado (cartelas torcidas, residuos en el suelo). Algún QR falla.</td></tr><tr><td class="col-criterio">Mediación</td><td class="level-4">Actitud proactiva con el público (comunidad). Explica el proyecto con entusiasmo y respeto.</td><td>Actitud correcta y respetuosa durante el evento. Responde dudas si se le pregunta.</td><td>Actitud pasiva o distraída durante la exposición. Poca interacción.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Diseño Cartela QR', icon:'🏷️'}, {name:'Cartel de Difusión', icon:'📢'}, {name:'Evidencia de Montaje', icon:'🏗️'}])}</div></details>
