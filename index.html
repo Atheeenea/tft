@@ -95,8 +95,9 @@
         .teacher-mode { --primary: #374151; --accent: #6366F1; --bg-app: #F3F4F6; }
         .dropzone { border: 2px dashed #CBD5E1; border-radius: 16px; padding: 24px; text-align: center; background: #F8FAFC; cursor: pointer; transition: all 0.3s; }
         .dropzone:hover { border-color: var(--accent); background: #EEF2FF; }
-        .student-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #F3F4F6; }
-        
+        .student-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #F3F4F6; cursor: pointer; transition: background-color 0.2s; }
+        .student-row:hover { background-color: #F8FAFC; }
+
         .mood-radio:checked + div { background-color: #D4E2D4; border-color: #2E5C38; transform: scale(1.1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .mood-label { cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         
@@ -151,6 +152,16 @@
         <div class="bg-[#f4f1ea] rounded-[4px] w-full max-w-lg h-[90vh] shadow-2xl relative flex flex-col overflow-hidden border-8 border-double border-gray-800">
             <div class="flex-1 overflow-y-auto" id="modal-content"></div>
             <button onclick="closeMaterialModal()" class="absolute top-4 right-4 bg-black text-white rounded-full p-2 hover:scale-110 transition shadow-lg z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE ALUMNO (NUEVO) -->
+    <div id="student-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4 fade-in">
+        <div class="bg-white rounded-3xl w-full max-w-md h-[80vh] shadow-2xl flex flex-col overflow-hidden relative">
+            <div id="student-modal-content" class="flex-1 overflow-y-auto no-scrollbar bg-gray-50">
+                <!-- Se inyecta dinámicamente -->
+            </div>
+            <button onclick="closeStudentModal()" class="absolute top-4 right-4 bg-white/50 backdrop-blur p-2 rounded-full hover:bg-white transition shadow-sm z-10"><i data-lucide="x" class="w-5 h-5 text-gray-600"></i></button>
         </div>
     </div>
 
@@ -497,7 +508,7 @@
         };
 
         const uploadBtn = `<button onclick="triggerUpload()" class="student-upload-btn group"><i data-lucide="upload-cloud" class="w-4 h-4 group-hover:-translate-y-1 transition-transform"></i> 📤 Entregar Trabajo Terminado</button>`;
-
+        
         // --- 4. CONTENIDO VISTAS ---
         const studentContent = {
             header: `<div class="relative"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Ej01&backgroundColor=e6e6e6" alt="Avatar" class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-white"><div class="absolute -bottom-1 -right-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md border-2 border-[#F7F7F5]">NV.2</div></div><div><h1 class="font-heading text-lg font-bold leading-tight">Hola, Alumno Ej01</h1><div class="flex items-center gap-2 mt-1"><span class="text-[10px] font-semibold opacity-50 tracking-wide uppercase">Oficial del Gremio • Técnico</span></div></div>`,
@@ -577,16 +588,7 @@
                                 <details class="group border-b border-gray-100" open><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.1. Laboratorio de Materiales</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Ingeniería</td><td class="level-4">El tótem es autoportante, robusto y desafía la gravedad con equilibrio complejo. Uniones ingeniosas.</td><td>El tótem se mantiene en pie por sí mismo. Las uniones son correctas y funcionales.</td><td>El tótem necesita apoyos externos para no caer o es muy frágil al tacto.</td></tr><tr><td class="col-criterio">Reciclaje</td><td class="level-4">Transformación radical del residuo: no parece "basura". Exploración profunda de las propiedades físicas.</td><td>Buen uso del material reciclado. Se nota intencionalidad en la selección de formas.</td><td>El material se reconoce demasiado (ej: una botella es solo una botella). Poca transformación.</td></tr><tr><td class="col-criterio">Hapticidad</td><td class="level-4">La obra ofrece un recorrido táctil rico y seguro (sin aristas cortantes). Pensada para ser "leída".</td><td>Texturas interesantes y seguras al tacto. Cumple con la accesibilidad básica.</td><td>Algunas zonas son interesantes al tacto, pero otras son planas o presentan riesgos.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Fotos Prototipos', icon:'🏗️'}, {name:'Foto Tótem Físico', icon:'🗿'}])}</div></details>
                                 
                                 <!-- 5.2 -->
-                                <details class="group border-b border-gray-100" open><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.2. El Oráculo de Gaia</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Prompting</td><td class="level-4">El prompt redactado es descriptivo, rico en adjetivos y referencias estilísticas. Imagen IA sorprendente.</td><td>El prompt es correcto y genera una imagen coherente con la escultura.</td><td>El prompt es muy básico (pocas palabras). La imagen IA tiene poca relación con la obra.</td></tr><tr><td class="col-criterio">Hibridación</td><td class="level-4">La vinculación en Artivive es perfecta. La capa digital expande el significado de la obra física.</td><td>La RA funciona correctamente. Hay relación visual entre lo físico y lo digital.</td><td>La RA funciona a veces o la imagen digital tapa por completo la escultura sin sentido.</td></tr><tr><td class="col-criterio">Defensa</td><td class="level-4">Argumentación brillante durante "La caída del oráculo". Vocabulario técnico preciso. Gran resiliencia.</td><td>Explica su obra con claridad y usa vocabulario correcto. Se adapta bien al "fallo".</td><td>Le cuesta explicar su obra sin el soporte visual. Vocabulario pobre o inseguridad.</td></tr></tbody></table>${autoEvalTemplate}
-                                <!-- HERRAMIENTA IA DE PROMPTS -->
-                                <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-xl mb-4 mx-3">
-                                    <h5 class="text-xs font-bold text-indigo-700 uppercase mb-2 flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> Oráculo de Gaia (IA)</h5>
-                                    <textarea id="prompt-idea-input" class="w-full text-xs p-2 border border-indigo-200 rounded-lg bg-white mb-2" rows="2" placeholder="Escribe tu idea básica aquí (ej: un pez hecho de botellas de plástico)..."></textarea>
-                                    <div id="prompt-output" class="hidden mb-2"></div>
-                                    <div id="prompt-loader" class="ai-typing hidden"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
-                                    <button id="btn-generate-prompt" onclick="generatePrompt()" class="w-full py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-bold uppercase shadow-sm hover:bg-indigo-700 transition-colors">✨ Generar Prompt Mágico</button>
-                                </div>
-                                ${createUploads([{name:'Imagen IA (Prompt)', icon:'✨'}, {name:'Video Captura RA', icon:'📹'}, {name:'Audio-etiqueta', icon:'🎙️'}])}</div></details>
+                                <details class="group border-b border-gray-100"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.2. El Oráculo de Gaia</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Prompting</td><td class="level-4">El prompt redactado es descriptivo, rico en adjetivos y referencias estilísticas. Imagen IA sorprendente.</td><td>El prompt es correcto y genera una imagen coherente con la escultura.</td><td>El prompt es muy básico (pocas palabras). La imagen IA tiene poca relación con la obra.</td></tr><tr><td class="col-criterio">Hibridación</td><td class="level-4">La vinculación en Artivive es perfecta. La capa digital expande el significado de la obra física.</td><td>La RA funciona correctamente. Hay relación visual entre lo físico y lo digital.</td><td>La RA funciona a veces o la imagen digital tapa por completo la escultura sin sentido.</td></tr><tr><td class="col-criterio">Defensa</td><td class="level-4">Argumentación brillante durante "La caída del oráculo". Vocabulario técnico preciso. Gran resiliencia.</td><td>Explica su obra con claridad y usa vocabulario correcto. Se adapta bien al "fallo".</td><td>Le cuesta explicar su obra sin el soporte visual. Vocabulario pobre o inseguridad.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Imagen IA (Prompt)', icon:'✨'}, {name:'Video Captura RA', icon:'📹'}, {name:'Audio-etiqueta', icon:'🎙️'}])}</div></details>
                                 
                                 <!-- 5.3 -->
                                 <details class="group"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.3. Exposición Aumentada: Voces de la Tierra</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Rol</td><td class="level-4">Liderazgo positivo. Cumple sus tareas con excelencia y ayuda a otros roles. Autonomía total.</td><td>Cumple correctamente con las tareas de su rol asignado. Buena autonomía.</td><td>Necesita supervisión constante para cumplir su tarea o interfiere en otros roles.</td></tr><tr><td class="col-criterio">Montaje</td><td class="level-4">El espacio expositivo está cuidado al detalle. Cartelas perfectas, códigos QR legibles, recorrido fluido.</td><td>Montaje limpio y ordenado. Los QR funcionan y las obras están seguras.</td><td>Montaje algo descuidado (cartelas torcidas, residuos en el suelo). Algún QR falla.</td></tr><tr><td class="col-criterio">Mediación</td><td class="level-4">Actitud proactiva con el público (comunidad). Explica el proyecto con entusiasmo y respeto.</td><td>Actitud correcta y respetuosa durante el evento. Responde dudas si se le pregunta.</td><td>Actitud pasiva o distraída durante la exposición. Poca interacción.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Diseño Cartela QR', icon:'🏷️'}, {name:'Cartel de Difusión', icon:'📢'}, {name:'Evidencia de Montaje', icon:'🏗️'}])}</div></details>
@@ -784,6 +786,14 @@
                                     <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
                                     <div onclick="openMaterial('receta_prompts')" class="material-item mb-1"><div class="material-icon icon-doc"><i data-lucide="sparkles" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Receta Prompts</span></div></div>
                                     <div onclick="openMaterial('artivive')" class="material-item"><div class="material-icon icon-vid"><i data-lucide="smartphone" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Conexión R.A. (Tutorial)</span></div></div>
+                                    <!-- HERRAMIENTA IA DE PROMPTS -->
+                                    <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-xl mb-4 mt-2">
+                                        <h5 class="text-xs font-bold text-indigo-700 uppercase mb-2 flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> Oráculo de Gaia (IA)</h5>
+                                        <textarea id="prompt-idea-input" class="w-full text-xs p-2 border border-indigo-200 rounded-lg bg-white mb-2" rows="2" placeholder="Escribe tu idea básica aquí (ej: un pez hecho de botellas de plástico)..."></textarea>
+                                        <div id="prompt-output" class="hidden mb-2"></div>
+                                        <div id="prompt-loader" class="ai-typing hidden"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+                                        <button id="btn-generate-prompt" onclick="generatePrompt()" class="w-full py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-bold uppercase shadow-sm hover:bg-indigo-700 transition-colors">✨ Generar Prompt Mágico</button>
+                                    </div>
                                 </div>
                             </div>
                         </details>
@@ -906,7 +916,7 @@
             views: {
                 dashboard: `<div class="grid grid-cols-2 gap-4 mb-6"><div class="card-modern p-4 bg-white teacher-card border-l-indigo-500"><p class="text-[10px] font-bold text-gray-400 uppercase">Ecos de Hoy</p><h3 class="text-2xl font-bold text-gray-800">24/28</h3></div><div class="card-modern p-4 bg-white teacher-card border-l-orange-500"><p class="text-[10px] font-bold text-gray-400 uppercase">Clima Aula</p><div class="flex -space-x-2 mt-1"><span class="text-xl">☀️</span><span class="text-xl">☀️</span><span class="text-xl">⛅</span></div></div></div><h3 class="font-heading text-lg font-bold mb-4 text-gray-800">Últimas Actividades</h3><div class="space-y-3"><div class="card-modern p-3 flex items-center gap-3 bg-white"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-sm">🌱</div><div class="flex-1"><p class="text-xs font-bold text-gray-800">Alumno Ej01 ha plantado</p><p class="text-[10px] text-gray-500">Hace 5 min • SA 5.1</p></div></div><div class="card-modern p-3 flex items-center gap-3 bg-white"><div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm">📤</div><div class="flex-1"><p class="text-xs font-bold text-gray-800">Alumno Ej04 entregó</p><p class="text-[10px] text-gray-500">Hace 12 min • SA 1.2</p></div></div></div>`,
                 inbox: `<h2 class="font-heading text-xl font-bold mb-4 text-gray-800">Buzón de Entregas</h2><div class="dropzone mb-8 group"><div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="upload-cloud" class="w-6 h-6"></i></div><h3 class="text-sm font-bold text-gray-700">Subir Evidencia</h3></div><h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Pendientes de Evaluar</h3><div class="space-y-3"><div class="card-modern p-4 bg-white flex gap-4"><div class="w-16 h-16 bg-gray-200 rounded-lg bg-[url('https://images.unsplash.com/photo-1515463138280-67d1dcbf3175?auto=format&fit=crop&q=80&w=100')] bg-cover"></div><div class="flex-1"><div class="flex justify-between items-start"><div><h4 class="text-sm font-bold text-gray-800">Tótem Estructura</h4><p class="text-[10px] text-gray-500">Por: Alumno Ej07</p></div><button class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-full">Calificar</button></div></div></div></div>`,
-                students: `<h2 class="font-heading text-xl font-bold mb-4 text-gray-800">Mis Alumnos</h2><div class="card-modern bg-white overflow-hidden"><div class="student-row"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold">01</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej01</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Piedra">🪨</span></div><p class="text-[9px] text-gray-400 uppercase">Técnico</p></div></div><div class="text-right"><p class="text-xs font-bold text-indigo-600">NV. 2</p><p class="text-[9px] text-gray-400">850 XP</p></div></div><div class="student-row"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">02</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej02</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Cristal">💎</span></div><p class="text-[9px] text-gray-400 uppercase">Curador</p></div></div><div class="text-right"><p class="text-xs font-bold text-indigo-600">NV. 3</p><p class="text-[9px] text-gray-400">1200 XP</p></div></div><div class="student-row"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 text-xs flex items-center justify-center font-bold">03</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej03</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Barro">🧱</span></div><p class="text-[9px] text-gray-400 uppercase">Comunicador</p></div></div><div class="text-right"><p class="text-xs font-bold text-orange-600">NV. 2</p><p class="text-[9px] text-gray-400">920 XP</p></div></div></div>`
+                students: `<h2 class="font-heading text-xl font-bold mb-4 text-gray-800">Mis Alumnos</h2><div class="card-modern bg-white overflow-hidden"><div class="student-row" onclick="openStudentModal('Ej01', 'Piedra', 'Técnico', 2, 850)"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold">01</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej01</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Piedra">🪨</span></div><p class="text-[9px] text-gray-400 uppercase">Técnico</p></div></div><div class="text-right"><p class="text-xs font-bold text-indigo-600">NV. 2</p><p class="text-[9px] text-gray-400">850 XP</p></div></div><div class="student-row" onclick="openStudentModal('Ej02', 'Cristal', 'Curador', 3, 1200)"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">02</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej02</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Cristal">💎</span></div><p class="text-[9px] text-gray-400 uppercase">Curador</p></div></div><div class="text-right"><p class="text-xs font-bold text-indigo-600">NV. 3</p><p class="text-[9px] text-gray-400">1200 XP</p></div></div><div class="student-row" onclick="openStudentModal('Ej03', 'Barro', 'Comunicador', 2, 920)"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 text-xs flex items-center justify-center font-bold">03</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej03</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Barro">🧱</span></div><p class="text-[9px] text-gray-400 uppercase">Comunicador</p></div></div><div class="text-right"><p class="text-xs font-bold text-orange-600">NV. 2</p><p class="text-[9px] text-gray-400">920 XP</p></div></div></div>`
             }
         };
 
@@ -985,6 +995,89 @@
                 headerActions.classList.add('opacity-0', 'pointer-events-none');
                 showToast('Modo Foto Activado');
             }
+        }
+
+        // --- FUNCIONES DETALLE ALUMNO (NUEVO) ---
+        function openStudentModal(name, archetype, role, level, xp) {
+            const modal = document.getElementById('student-modal');
+            const content = document.getElementById('student-modal-content');
+            
+            const archetypeIcons = { 'Piedra': '🪨', 'Cristal': '💎', 'Barro': '🧱' };
+            const icon = archetypeIcons[archetype] || '👤';
+
+            content.innerHTML = `
+                <div class="relative bg-gradient-to-b from-indigo-500 to-indigo-600 p-6 pb-12 rounded-b-[40px]">
+                    <div class="text-center text-white">
+                        <div class="w-20 h-20 bg-white/20 backdrop-blur rounded-2xl mx-auto mb-3 flex items-center justify-center text-4xl shadow-lg border border-white/30">
+                            ${icon}
+                        </div>
+                        <h2 class="font-heading text-2xl font-bold">${name}</h2>
+                        <div class="flex justify-center gap-2 mt-2 opacity-90 text-[10px] font-bold uppercase tracking-widest">
+                            <span class="bg-white/20 px-2 py-1 rounded-lg border border-white/20">${archetype}</span>
+                            <span class="bg-white/20 px-2 py-1 rounded-lg border border-white/20">${role}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="px-6 -mt-8 relative z-10 grid grid-cols-3 gap-3 mb-6">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
+                        <div class="text-[10px] text-gray-400 font-bold uppercase">Nivel</div>
+                        <div class="text-xl font-bold text-indigo-600">${level}</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
+                        <div class="text-[10px] text-gray-400 font-bold uppercase">XP</div>
+                        <div class="text-xl font-bold text-gray-800">${xp}</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
+                        <div class="text-[10px] text-gray-400 font-bold uppercase">Karma</div>
+                        <div class="text-xl font-bold text-orange-500">☀️</div>
+                    </div>
+                </div>
+
+                <div class="px-6 space-y-6 pb-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 pl-1">Portafolio Reciente</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="aspect-square bg-gray-200 rounded-xl overflow-hidden relative group">
+                                <img src="https://images.unsplash.com/photo-1544259327-0c7974377317?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="text-[9px] text-white font-bold">Semillero</span>
+                                </div>
+                            </div>
+                            <div class="aspect-square bg-gray-200 rounded-xl overflow-hidden relative group">
+                                <img src="https://images.unsplash.com/photo-1515463138280-67d1dcbf3175?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="text-[9px] text-white font-bold">Tótem</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 pl-1">Historial Evaluación</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-3 bg-white border border-gray-100 rounded-xl">
+                                <div><p class="text-xs font-bold text-gray-800">SA 1.1 Semillero</p><p class="text-[9px] text-gray-400">12 Oct</p></div>
+                                <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-lg">8.8</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-white border border-gray-100 rounded-xl">
+                                <div><p class="text-xs font-bold text-gray-800">SA 1.2 Gabinete</p><p class="text-[9px] text-gray-400">25 Oct</p></div>
+                                <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-lg">9.2</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-white border border-gray-100 rounded-xl opacity-60">
+                                <div><p class="text-xs font-bold text-gray-800">SA 5.1 Tótem</p><p class="text-[9px] text-gray-400">Pendiente</p></div>
+                                <span class="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeStudentModal() {
+            document.getElementById('student-modal').classList.add('hidden');
         }
 
         function saveEco() { showToast('¡Idea plantada!'); document.getElementById('xp-bar').style.width = '85%'; }
