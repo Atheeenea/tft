@@ -7,7 +7,924 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* --- TIPOGRAFÍAS --- */<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eco-OS | Plataforma Educativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
         /* --- TIPOGRAFÍAS --- */
+        /* Interfaz Moderna (App) */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&family=DM+Sans:wght@400;500;700&display=swap');
+        /* Estilo Científico (Láminas) */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&display=swap');
+
+        :root {
+            /* Variables App */
+            --bg-app: #F7F7F5;
+            --surface: #FFFFFF;
+            --primary: #2C3E36;
+            --accent: #9FB8AD;
+            --tech: #E66C48;
+            
+            /* Variables Láminas */
+            --paper: #f4f1ea;
+            --ink: #1a1a1a;
+            --pencil: #555555;
+            --highlight: #b85c38;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--primary);
+            font-family: 'DM Sans', sans-serif;
+            height: 100vh;
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
+
+        /* --- UI MODERNA --- */
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.05); }
+        .card-modern { background: var(--surface); border-radius: 20px; box-shadow: 0 4px 12px rgba(44, 62, 54, 0.05); border: 1px solid rgba(255,255,255,0.5); transition: transform 0.2s; }
+        .card-modern:active { transform: scale(0.99); }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .xp-container { background: #E0E5E2; height: 6px; border-radius: 99px; overflow: hidden; }
+        .xp-fill { background: var(--primary); height: 100%; width: 65%; border-radius: 99px; transition: width 1s ease; }
+        
+        .input-eco { background: #F2F4F3; border: 1px solid transparent; border-radius: 16px; padding: 16px; font-size: 14px; width: 100%; outline: none; }
+        .input-eco:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(159, 184, 173, 0.2); }
+        
+        .pill-tab { padding: 8px 20px; border-radius: 99px; font-size: 12px; font-weight: 600; color: rgba(44, 62, 54, 0.5); cursor: pointer; }
+        .pill-tab.active { background: var(--primary); color: white; }
+
+        details > summary { list-style: none; outline: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary .chevron { transform: rotate(180deg); }
+
+        .badge { padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .badge-done { background: #D4E2D4; color: #2E5C38; }
+        .badge-progress { background: #FFF4E6; color: #B35F00; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Rúbricas */
+        .rubric-container { overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-radius: 8px; border: 1px solid #f0f0f0; }
+        .rubric-table { min-width: 600px; width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11px; }
+        .rubric-table th { background: #F7F7F5; color: #2C3E36; font-weight: 700; padding: 10px; text-align: left; border-bottom: 2px solid #E0E5E2; position: sticky; left: 0; }
+        .rubric-table td { padding: 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; color: #4A5568; line-height: 1.4; }
+        .level-4 { background-color: rgba(212, 226, 212, 0.3); border-left: 3px solid #2E5C38; }
+        .level-selected { background-color: rgba(230, 108, 72, 0.1) !important; border: 2px solid #E66C48 !important; border-radius: 8px; position: relative; }
+        .level-selected::after { content: 'Tu Nivel'; position: absolute; top: 2px; right: 2px; background: #E66C48; color: white; font-size: 8px; padding: 1px 4px; border-radius: 4px; font-weight: bold; }
+
+        /* Materiales Biblioteca */
+        .material-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: #FAFAFA; border-radius: 12px; border: 1px solid #EEEEEE; cursor: pointer; margin-bottom: 8px; text-decoration: none; color: inherit; }
+        .material-item:hover { border-color: var(--accent); background: white; transform: translateX(2px); }
+        .material-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .icon-pdf { background: #FFEBEE; color: #D32F2F; } 
+        .icon-pin { background: #E60023; color: white; } 
+        .icon-ref { background: #E3F2FD; color: #1565C0; }
+        .icon-doc { background: #E8F5E9; color: #388E3C; }
+        .icon-tool { background: #ECEFF1; color: #455A64; }
+        
+        .icon-img { background: #FFF3E0; color: #EF6C00; }
+        .icon-vid { background: #F3E5F5; color: #7B1FA2; }
+        
+        .trimestre-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-top: 24px; margin-bottom: 8px; padding-left: 4px; letter-spacing: 1px; }
+        .locked-up { padding: 12px; margin-bottom: 8px; background-color: #Fcfcfc; border-radius: 12px; border: 1px dashed #E0E5E2; color: #A0AEC0; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* --- ESTILO CIENTÍFICO (CSS del Grimorio 2) --- */
+        .sci-sheet { background-color: var(--paper); font-family: 'Cormorant Garamond', serif; color: var(--ink); padding: 30px; background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 20px 20px; height: 100%; overflow-y: auto; }
+        .sci-h1 { font-size: 2rem; font-weight: 700; text-transform: uppercase; text-align: center; border-bottom: 3px double var(--ink); padding-bottom: 10px; margin-bottom: 20px; line-height: 1; letter-spacing: 0.05em; }
+        .sci-h2 { font-family: 'Courier Prime', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--ink); display: inline-block; margin-bottom: 10px; }
+        .sci-hand { font-family: 'Reenie Beanie', cursive; color: var(--highlight); font-size: 1.6rem; transform: rotate(-2deg); }
+        .sci-box { border: 2px solid var(--ink); padding: 15px; background: rgba(255,255,255,0.6); margin-bottom: 15px; position: relative; }
+        .sci-label { font-family: 'Courier Prime', monospace; font-size: 0.6rem; text-transform: uppercase; background: var(--paper); padding: 0 5px; position: absolute; top: -8px; left: 10px; }
+        .sci-mono { font-family: 'Courier Prime', monospace; font-size: 0.75rem; }
+        .sci-icon { stroke-width: 1.5; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
+        .sci-guide-line { border-top: 1px dashed var(--pencil); position: relative; margin: 10px 0; }
+        .sci-guide-line::after { content: 'fig.'; position: absolute; right: 0; top: -8px; font-family: 'Courier Prime', monospace; font-size: 0.5rem; color: var(--pencil); }
+
+        /* Estilos Profesor */
+        .teacher-mode { --primary: #374151; --accent: #6366F1; --bg-app: #F3F4F6; }
+        .dropzone { border: 2px dashed #CBD5E1; border-radius: 16px; padding: 24px; text-align: center; background: #F8FAFC; cursor: pointer; transition: all 0.3s; }
+        .dropzone:hover { border-color: var(--accent); background: #EEF2FF; }
+        .student-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #F3F4F6; }
+        
+        .mood-radio:checked + div { background-color: #D4E2D4; border-color: #2E5C38; transform: scale(1.1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .mood-label { cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        
+        /* Botón Upload */
+        .student-upload-btn { background-color: var(--primary); color: white; width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; cursor: pointer; transition: 0.2s; }
+        .student-upload-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header onclick="togglePhotoMode()" class="px-6 pt-12 pb-4 bg-transparent z-10 flex items-center justify-between cursor-pointer group" title="Toca para mostrar/ocultar menú">
+        <div class="flex items-center gap-4" id="header-user">
+            <!-- Se inyecta por JS -->
+        </div>
+        <div class="flex gap-2" id="header-actions">
+            <!-- BOTÓN MODO FOTO (NUEVO) -->
+            <button onclick="togglePhotoMode(); event.stopPropagation();" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 text-[#2C3E36] hover:bg-gray-50 transition-colors" title="Modo Foto: Ocultar Menú"><i data-lucide="camera" class="w-5 h-5"></i></button>
+
+            <!-- BOTÓN INFO TFM -->
+            <button onclick="openInfoModal(); event.stopPropagation();" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 text-[#2C3E36] hover:bg-gray-50 transition-colors"><i data-lucide="info" class="w-5 h-5"></i></button>
+            
+            <button onclick="toggleRole(); event.stopPropagation();" class="text-[10px] font-bold uppercase tracking-wide opacity-50 hover:opacity-100 bg-white/50 px-3 py-1 rounded-lg border border-black/5 transition-all">Vista</button>
+            <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center relative"><i data-lucide="bell" class="w-5 h-5 opacity-70"></i><span class="absolute top-2.5 right-3 w-2 h-2 bg-[#E66C48] rounded-full border border-white"></span></button>
+        </div>
+    </header>
+
+    <!-- PROGRESO -->
+    <div class="px-6 mb-2" id="progress-section">
+        <div class="flex justify-between text-[10px] font-bold opacity-40 mb-1.5"><span>NIVEL DE EXPERIENCIA</span><span>65%</span></div>
+        <div class="xp-container"><div class="xp-fill" id="xp-bar"></div></div>
+    </div>
+
+    <!-- MAIN -->
+    <main id="main-content" class="flex-1 overflow-y-auto px-6 pb-28 pt-2 no-scrollbar relative fade-in"></main>
+
+    <!-- NAV -->
+    <nav class="fixed bottom-6 left-6 right-6 z-20 transition-all duration-300 transform" id="nav-container">
+        <div class="glass-nav rounded-2xl px-2 py-3 flex justify-between items-center shadow-2xl shadow-black/10 border border-white/50" id="nav-bar"></div>
+    </nav>
+
+    <!-- MODAL MATERIAL (ESTILO CIENTÍFICO) -->
+    <div id="material-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 fade-in">
+        <div class="bg-[#f4f1ea] rounded-[4px] w-full max-w-lg h-[90vh] shadow-2xl relative flex flex-col overflow-hidden border-8 border-double border-gray-800">
+            <div class="flex-1 overflow-y-auto" id="modal-content"></div>
+            <button onclick="closeMaterialModal()" class="absolute top-4 right-4 bg-black text-white rounded-full p-2 hover:scale-110 transition shadow-lg z-50"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+    </div>
+
+    <!-- MODAL INFO TFM (NUEVO) -->
+    <div id="info-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-6 fade-in">
+        <div class="bg-white rounded-3xl w-full max-w-md max-h-[85vh] shadow-2xl relative flex flex-col overflow-hidden border border-white/50">
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-[#2C3E36] rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg transform rotate-3">
+                        <i data-lucide="sprout" class="w-8 h-8 text-[#9FB8AD]"></i>
+                    </div>
+                    <h2 class="font-heading text-xl font-bold text-[#2C3E36] leading-tight mb-1">Eco-OS</h2>
+                    <p class="text-[9px] uppercase tracking-widest text-[#E66C48] font-bold">Plataforma Educativa de Sostenibilidad Aumentada</p>
+                </div>
+
+                <div class="space-y-6 text-sm text-gray-600">
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-center">
+                        <p class="italic text-xs leading-relaxed">
+                            "Prototipo de aplicación web progresiva (PWA) diseñado como herramienta didáctica y de gestión para la asignatura de Educación Plástica, Visual y Audiovisual (EPVA)."
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-[#2C3E36] uppercase text-[10px] tracking-wider mb-3 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-3 h-3"></i> Ficha Técnica del Proyecto</h3>
+                        <div class="bg-white border border-gray-100 rounded-xl p-3 shadow-sm">
+                            <ul class="space-y-2 text-xs">
+                                <li class="flex justify-between border-b border-gray-50 pb-1"><span>Autora:</span> <strong class="text-gray-800">Marian Diaz Lindholm</strong></li>
+                                <li class="flex justify-between border-b border-gray-50 pb-1"><span>Titulación:</span> <strong class="text-gray-800 text-right">Máster Prof. Secundaria (VIU)</strong></li>
+                                <li class="flex justify-between border-b border-gray-50 pb-1"><span>Especialidad:</span> <strong class="text-gray-800">Dibujo</strong></li>
+                                <li class="flex justify-between"><span>Curso:</span> <strong class="text-gray-800">2025-2026 (1ª Conv.)</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-[#2C3E36] uppercase text-[10px] tracking-wider mb-3 flex items-center gap-2"><i data-lucide="lightbulb" class="w-3 h-3"></i> Descripción de la Herramienta</h3>
+                        <p class="text-xs mb-3 text-justify">Eco-OS actúa como un "sistema operativo de aula" que hibrida la gestión académica con una narrativa inmersiva basada en la alquimia.</p>
+                        <ul class="space-y-2 text-xs pl-2 border-l-2 border-[#E66C48]">
+                            <li><strong>Gestión de Identidad:</strong> Perfiles gamificados con roles de gremio.</li>
+                            <li><strong>Bitácora Metacognitiva:</strong> Registro del clima emocional y "Semillas" de aprendizaje.</li>
+                            <li><strong>Evaluación Formativa:</strong> Rúbricas interactivas y feedback cualitativo.</li>
+                            <li><strong>Biblioteca:</strong> Recursos y "cuaderno de campo científico".</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-[#2C3E36] text-white p-5 rounded-2xl text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-[#E66C48]"></div>
+                        <h3 class="font-bold uppercase text-[10px] opacity-80 mb-2 tracking-widest">⚖️ Licencia y Derechos</h3>
+                        <p class="text-xs font-bold mb-3">© 2026 Marian Diaz Lindholm</p>
+                        <p class="text-[9px] opacity-70 leading-relaxed mb-2">Este software ha sido desarrollado exclusivamente con fines académicos como parte de un TFM.</p>
+                        <p class="text-[9px] opacity-60 italic">Uso académico permitido citando autoría y universidad. Prohibida comercialización.</p>
+                        <div class="mt-3 pt-3 border-t border-white/10 text-[9px] opacity-40">Desarrollado en Palma, Illes Balears.</div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeInfoModal()" class="absolute top-4 right-4 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition z-50"><i data-lucide="x" class="w-4 h-4 text-gray-600"></i></button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 text-sm font-medium z-50 transition-all duration-300 transform -translate-y-20 opacity-0"><i data-lucide="check-circle" class="w-4 h-4 text-white"></i><span id="toast-msg">Guardado</span></div>
+
+    <script>
+        // ==========================================
+        // 1. DATA: LÁMINAS CIENTÍFICAS (HTML PURO)
+        // ==========================================
+        const sheets = {
+            // --- NUEVO: IDENTIDAD ---
+            identity: `<div class="sci-sheet">
+                <div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 1.1</span><span>DIAGNÓSTICO</span></div>
+                <h1 class="sci-h1">MAPA DE IDENTIDAD</h1>
+                <div class="grid grid-cols-3 gap-4 mt-8">
+                    <div class="sci-box flex flex-col items-center text-center">
+                        <span class="sci-label">PASADO</span>
+                        <i data-lucide="anchor" class="w-10 h-10 mb-2 sci-icon"></i>
+                        <h3 class="font-bold text-xs uppercase mb-1">La Raíz</h3>
+                        <p class="sci-mono text-[10px] leading-tight">Objeto que me conecta con mi origen.</p>
+                    </div>
+                    <div class="sci-box flex flex-col items-center text-center">
+                        <span class="sci-label">PRESENTE</span>
+                        <i data-lucide="box" class="w-10 h-10 mb-2 sci-icon"></i>
+                        <h3 class="font-bold text-xs uppercase mb-1">La Materia</h3>
+                        <p class="sci-mono text-[10px] leading-tight">Objeto cotidiano que me define hoy.</p>
+                    </div>
+                    <div class="sci-box flex flex-col items-center text-center">
+                        <span class="sci-label">FUTURO</span>
+                        <i data-lucide="send" class="w-10 h-10 mb-2 sci-icon"></i>
+                        <h3 class="font-bold text-xs uppercase mb-1">La Proyección</h3>
+                        <p class="sci-mono text-[10px] leading-tight">Símbolo de lo que quiero ser.</p>
+                    </div>
+                </div>
+                <p class="sci-hand text-center mt-8">"Somos lo que guardamos."</p>
+            </div>`,
+
+            // --- NUEVO: MAPA CIEGO (Sheet Version) ---
+            mapa_ciego_sheet: `<div class="sci-sheet">
+                <div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 1.2</span><span>CAMPO</span></div>
+                <h1 class="sci-h1">EL MAPA CIEGO</h1>
+                <p class="text-center font-mono text-[10px] mb-6">IES ARXIDUC LLUÍS SALVADOR - PLANTA BAJA</p>
+                <div class="border-4 border-double border-gray-800 h-48 relative bg-white mb-6 p-4">
+                     <svg width="100%" height="100%" viewBox="0 0 400 200" class="opacity-60">
+                        <rect x="10" y="10" width="380" height="180" fill="none" stroke="black" stroke-width="2"/>
+                        <path d="M50 10 V190 M150 10 V150 M250 50 V190 M350 10 V190" stroke="black" stroke-width="1"/>
+                        <rect x="160" y="60" width="80" height="80" fill="none" stroke="black" stroke-dasharray="5,5"/>
+                        <text x="180" y="100" font-family="monospace" font-size="12">PATIO</text>
+                        <text x="20" y="30" font-family="monospace" font-size="10">AULA</text>
+                    </svg>
+                    <div class="absolute bottom-2 right-2 border border-black p-1 bg-white"><p class="font-mono text-[8px] uppercase">Leyenda: X = Hallazgo</p></div>
+                </div>
+                <div class="border-t-2 border-black pt-4">
+                    <h2 class="sci-h2">REGISTRO</h2>
+                    <table class="w-full font-mono text-[10px] text-left mt-2">
+                        <tr class="border-b border-gray-400"><th>#</th><th>UBICACIÓN</th><th>TEXTURA</th></tr>
+                        <tr class="border-b border-dashed border-gray-300 h-8"><td>1</td><td></td><td></td></tr>
+                        <tr class="border-b border-dashed border-gray-300 h-8"><td>2</td><td></td><td></td></tr>
+                    </table>
+                </div>
+            </div>`,
+
+            frottage: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 1.2</span><span>TÉCNICA</span></div><h1 class="sci-h1">FROTTAGE</h1><p class="text-center italic text-sm mb-6">"La piel de la materia."</p><div class="grid grid-cols-2 gap-4"><div class="sci-box flex flex-col items-center text-center"><span class="sci-label">ÁNGULO</span><i data-lucide="edit-3" class="w-12 h-12 mb-2 sci-icon"></i><p class="sci-mono text-xs text-gray-600 leading-tight">Usa la barra tumbada (45º), nunca la punta.</p></div><div class="sci-box flex flex-col items-center text-center"><span class="sci-label">PRESIÓN</span><i data-lucide="move-diagonal" class="w-12 h-12 mb-2 sci-icon"></i><p class="sci-mono text-xs text-gray-600 leading-tight">Firme y constante. Busca el relieve, no lo liso.</p></div></div><div class="mt-4 border-t-2 border-dashed border-gray-400 pt-4"><h2 class="sci-h2">ESTRATIGRAFÍA</h2><ul class="sci-mono text-xs list-disc pl-4 space-y-2"><li><strong>Matriz:</strong> Objeto con textura (moneda, madera, pared).</li><li><strong>Soporte:</strong> Papel fino o papel de seda.</li><li><strong>Herramienta:</strong> Barra de grafito, ceras o carboncillo.</li></ul></div><p class="sci-hand text-center mt-8">¡Busca la herida, no lo liso!</p></div>`,
+            
+            // --- NUEVO: CATÁLOGO UNIONES ---
+            uniones: `<div class="sci-sheet">
+                <div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 5.1</span><span>TÉCNICA</span></div>
+                <h1 class="sci-h1">CATÁLOGO DE UNIONES</h1>
+                <p class="sci-hand text-center mb-6">"Prohibido el pegamento."</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="sci-box flex items-center gap-2">
+                        <div class="w-10 h-10 border border-black bg-white flex items-center justify-center relative"><div class="absolute w-4 h-6 border border-black border-b-0 bottom-0 left-1"></div><div class="absolute w-6 h-4 border border-black border-r-0 top-1 right-0"></div></div>
+                        <div><h3 class="font-bold text-[10px] uppercase">1. Muescas</h3><p class="sci-mono text-[9px] leading-none">Encaje a presión.</p></div>
+                    </div>
+                    <div class="sci-box flex items-center gap-2">
+                        <div class="w-10 h-10 border border-black bg-white flex items-center justify-center"><svg width="24" height="24"><path d="M4 4 L20 20 M4 20 L20 4" stroke="black"/></svg></div>
+                        <div><h3 class="font-bold text-[10px] uppercase">2. Sutura</h3><p class="sci-mono text-[9px] leading-none">Cosido con alambre.</p></div>
+                    </div>
+                    <div class="sci-box flex items-center gap-2">
+                         <div class="w-10 h-10 border border-black bg-white flex items-center justify-center"><div class="w-6 h-4 border border-black border-dashed"></div></div>
+                        <div><h3 class="font-bold text-[10px] uppercase">3. Pestañas</h3><p class="sci-mono text-[9px] leading-none">Doblar e insertar.</p></div>
+                    </div>
+                    <div class="sci-box flex items-center gap-2">
+                        <div class="w-10 h-10 border border-black bg-white flex items-center justify-center"><div class="w-1 h-8 bg-gray-300"></div></div>
+                        <div><h3 class="font-bold text-[10px] uppercase">4. Ligadura</h3><p class="sci-mono text-[9px] leading-none">Unión envolvente.</p></div>
+                    </div>
+                </div>
+            </div>`,
+
+            seguridad: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 2.0</span><span>SEGURIDAD</span></div><h1 class="sci-h1">NORMAS TALLER</h1><div class="space-y-6"><div class="flex gap-4 items-center border-b border-black pb-4"><div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center bg-white shadow-sm"><i data-lucide="eye" class="w-8 h-8"></i></div><div><h2 class="sci-h2 mb-1">OJOS ABIERTOS</h2><p class="sci-mono text-xs">Si miras fuera, la mano para. Atención absoluta.</p></div></div><div class="flex gap-4 items-center border-b border-black pb-4"><div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center bg-gray-100"><i data-lucide="scissors" class="w-8 h-8"></i></div><div><h2 class="sci-h2 mb-1">VECTOR FUERA</h2><p class="sci-mono text-xs">Corta siempre hacia fuera del cuerpo y de los dedos.</p></div></div><div class="flex gap-4 items-center"><div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center bg-white"><i data-lucide="trash-2" class="w-8 h-8"></i></div><div><h2 class="sci-h2 mb-1">RETORNO</h2><p class="sci-mono text-xs">Clasifica el residuo. El orden es parte de la seguridad.</p></div></div></div><div class="mt-8 p-4 border-4 border-double border-red-800 bg-red-50 text-center"><p class="sci-mono text-sm text-red-900 font-bold uppercase tracking-tighter">ZONA ROJA: CÚTER CERRADO SI NO SE ESTÁ USANDO.</p></div></div>`,
+            
+            artivive: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 5.2</span><span>HIBRIDACIÓN</span></div><h1 class="sci-h1">CONEXIÓN R.A.</h1><p class="text-center italic text-sm mb-6">"Vincular el alma física con el aura digital."</p><div class="relative pl-8 border-l-2 border-dashed border-black space-y-10 ml-4"><div class="sci-box"><span class="sci-label">EL ANCLA (Trigger)</span><div class="flex justify-between items-center"><h2 class="sci-h2 mb-0">IMAGEN FÍSICA</h2><i data-lucide="image" class="w-6 h-6"></i></div><p class="sci-mono text-xs mt-2 leading-relaxed">Sube la FOTO de tu escultura a Artivive Bridge. Evita reflejos y zonas oscuras.</p></div><div class="sci-box"><span class="sci-label">EL AURA (Video)</span><div class="flex justify-between items-center"><h2 class="sci-h2 mb-0">CAPA DIGITAL</h2><i data-lucide="film" class="w-6 h-6"></i></div><p class="sci-mono text-xs mt-2 leading-relaxed">Sube el vídeo IA (.mp4). Máx 100MB. Es la revelación oculta de la obra.</p></div><div class="sci-box bg-gray-100 border-dashed"><span class="sci-label">LA UNIÓN (Sync)</span><div class="flex justify-between items-center"><h2 class="sci-h2 mb-0">SINCROSIS</h2><i data-lucide="zap" class="w-6 h-6"></i></div><p class="sci-mono text-xs mt-2 leading-relaxed">Ajusta la escala. La RA debe nacer de la materia física, no taparla.</p></div></div><p class="sci-hand text-right mt-6">¡Magia revelada!</p></div>`,
+            
+            prompts: `<div class="sci-sheet">
+                <div class="flex justify-between items-end mb-4 opacity-50 font-mono text-xs">
+                    <span>FIG. 5.2b</span>
+                    <span>RECETA</span>
+                </div>
+                <h1 class="sci-h1">RECETA PROMPTS</h1>
+                <div class="border-2 border-black p-6 bg-[#fffcf5] mb-8 relative">
+                    <h2 class="sci-h2 text-center w-full mb-6">LA FÓRMULA MÁGICA</h2>
+                    <div class="flex flex-wrap gap-2 font-mono text-[10px] mb-6 justify-center">
+                        <span class="bg-blue-100 px-2 py-1 border border-blue-800">[SUJETO]</span>+
+                        <span class="bg-red-100 px-2 py-1 border border-red-800">[MATERIAL]</span>+
+                        <span class="bg-yellow-100 px-2 py-1 border border-yellow-800">[ESTILO]</span>
+                    </div>
+                    <div class="sci-guide-line"></div>
+                    <p class="font-mono text-xs leading-relaxed italic text-gray-700">
+                        "Una escultura de un pájaro <strong>[Sujeto]</strong> hecha de cristal roto <strong>[Material]</strong>, estilo cyberpunk <strong>[Estilo]</strong>."
+                    </p>
+                </div>
+            </div>`,
+            
+            receta_prompts: `<div class="sci-sheet">
+                <div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 5.2</span><span>ORÁCULO</span></div>
+                <h1 class="sci-h1">RECETA DE PROMPTS</h1>
+                
+                <div class="border-2 border-black p-5 bg-[#fffcf5] mb-6 relative">
+                    <h2 class="sci-h2 text-center w-full mb-6" style="border:none">LA FÓRMULA MÁGICA</h2>
+                    
+                    <div class="flex flex-wrap items-center justify-center gap-2 font-mono text-[10px] mb-6">
+                        <span class="bg-blue-100 px-2 py-1 border border-blue-800 text-blue-900 font-bold">[SUJETO]</span>
+                        <span>+</span>
+                        <span class="bg-red-100 px-2 py-1 border border-red-800 text-red-900 font-bold">[MATERIAL]</span>
+                        <span>+</span>
+                        <span class="bg-yellow-100 px-2 py-1 border border-yellow-800 text-yellow-900 font-bold">[ESTILO]</span>
+                        <span>+</span>
+                        <span class="bg-gray-200 px-2 py-1 border border-gray-800 text-gray-900 font-bold">[LUZ]</span>
+                    </div>
+
+                    <div class="sci-guide-line"></div>
+
+                    <div class="mt-4 space-y-2">
+                        <p class="font-serif italic text-sm text-center">"Una escultura de un pájaro <strong>[Sujeto]</strong> hecha de cristal roto y cables <strong>[Material]</strong>, estilo cyberpunk futurista <strong>[Estilo]</strong>, con luz de neón azul y niebla <strong>[Luz]</strong>."</p>
+                    </div>
+                </div>
+
+                <div class="sci-box bg-gray-50">
+                    <span class="sci-label">TRUCOS DE ALQUIMISTA</span>
+                    <ul class="sci-mono text-[10px] list-disc pl-4 space-y-1 mt-2">
+                        <li>Usa <strong>"Hyperrealistic"</strong> o <strong>"8k"</strong> para definición.</li>
+                        <li>Usa <strong>"Dreamlike"</strong> o <strong>"Surreal"</strong> para magia.</li>
+                        <li>Describe TEXTURAS: <strong>"Rusty"</strong> (oxidado), <strong>"Glossy"</strong> (brillante).</li>
+                    </ul>
+                </div>
+            </div>`,
+            
+            roles_sheet: `<div class="sci-sheet">
+                <div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 5.3</span><span>EQUIPO</span></div>
+                <h1 class="sci-h1">ROLES DEL GREMIO</h1>
+                <p class="text-center font-mono text-[10px] mb-6">(RECORTAR Y ASIGNAR)</p>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="sci-box flex gap-4 items-center">
+                        <div class="w-12 h-12 bg-gray-100 flex items-center justify-center rounded-full"><i data-lucide="eye" class="w-6 h-6"></i></div>
+                        <div><h2 class="sci-h2 mb-0">CURADOR</h2><p class="sci-mono text-[10px]">Decide DÓNDE va la obra. Cuida la estética y el orden.</p></div>
+                    </div>
+                    <div class="sci-box flex gap-4 items-center">
+                        <div class="w-12 h-12 bg-gray-100 flex items-center justify-center rounded-full"><i data-lucide="wrench" class="w-6 h-6"></i></div>
+                        <div><h2 class="sci-h2 mb-0">TÉCNICO</h2><p class="sci-mono text-[10px]">Hace que se AGUANTE. Seguridad y montaje.</p></div>
+                    </div>
+                    <div class="sci-box flex gap-4 items-center">
+                        <div class="w-12 h-12 bg-gray-100 flex items-center justify-center rounded-full"><i data-lucide="message-circle" class="w-6 h-6"></i></div>
+                        <div><h2 class="sci-h2 mb-0">COMUNICADOR</h2><p class="sci-mono text-[10px]">Hace que la obra HABLE. QR y cartelas.</p></div>
+                    </div>
+                </div>
+            </div>`,
+
+            tabula_rasa: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 7.0</span><span>HERRAMIENTA</span></div><h1 class="sci-h1">LA TABULA RASA</h1><p class="text-xl italic text-center mb-8">"Herramienta de Pensamiento Efímero."</p><div class="grid grid-cols-2 gap-6 mb-8"><div class="col-span-2 text-center border-b border-black pb-4"><p class="sci-hand text-2xl">"Aquí el error no existe,<br>solo la idea fugaz."</p></div><div class="text-center"><i data-lucide="box" class="w-12 h-12 mx-auto mb-2 sci-icon"></i><h3 class="sci-mono font-bold text-xs uppercase">1. El Cuerpo</h3><p class="sci-mono text-[10px]">Cartón rígido recuperado (A4)</p></div><div class="text-center"><i data-lucide="layers" class="w-12 h-12 mx-auto mb-2 sci-icon"></i><h3 class="sci-mono font-bold text-xs uppercase">2. La Piel</h3><p class="sci-mono text-[10px]">Funda de plástico transparente</p></div><div class="text-center"><i data-lucide="pen-tool" class="w-12 h-12 mx-auto mb-2 sci-icon"></i><h3 class="sci-mono font-bold text-xs uppercase">3. La Varita</h3><p class="sci-mono text-[10px]">Rotulador borrado seco</p></div><div class="text-center"><i data-lucide="eraser" class="w-12 h-12 mx-auto mb-2 sci-icon"></i><h3 class="sci-mono font-bold text-xs uppercase">4. El Borrador</h3><p class="sci-mono text-[10px]">Retal de tela de algodón</p></div></div><div class="bg-gray-100 p-4 text-center border-2 border-black rounded-lg shadow-sm"><p class="sci-mono text-xs font-bold italic">Dibuja ➔ Captura con Foto ➔ Libera (Borra)</p></div></div>`
+        };
+
+        // --- 2. DATA: MATERIALES GENERALES ---
+        const materialsDB = {
+            'cajas-poeticas': { title: 'Cajas Poéticas', type: 'REFERENTE VISUAL', content: '<div class="space-y-4"><img src="https://images.unsplash.com/photo-1544259327-0c7974377317?auto=format&fit=crop&q=80&w=400" class="rounded-xl w-full h-48 object-cover"><p class="text-sm text-gray-600"><strong>Joseph Cornell:</strong> El maestro del ensamblaje. Observa cómo cada objeto en la caja cuenta una parte de una historia secreta.</p></div>' },
+            'mapa-ciego': { title: 'Mapa Ciego IES', type: 'HERRAMIENTA', content: '<div class="border-2 border-gray-300 bg-white p-4 rounded-xl h-64 flex items-center justify-center relative"><span class="absolute top-2 left-2 text-[10px] font-mono">PLANTA BAJA</span><svg width="100%" height="100%" viewBox="0 0 200 150"><rect x="10" y="10" width="180" height="130" fill="none" stroke="#ccc" stroke-width="2"/><path d="M50 10 V140 M150 10 V100" stroke="#ccc"/><text x="20" y="30" font-size="8" fill="#999">AULAS</text><text x="160" y="120" font-size="8" fill="#999">PATIO</text></svg></div><p class="text-xs text-gray-500 mt-4 text-center">Marca con una X dónde encuentres tu textura.</p>' },
+            'fichas-roles': { title: 'Roles de Equipo', type: 'GESTIÓN', content: '<div class="space-y-3"><div class="bg-white p-3 rounded-xl border-l-4 border-l-blue-500 shadow-sm"><h4 class="font-bold text-sm text-blue-800">CURADOR</h4><p class="text-xs text-gray-600">Decide DÓNDE va cada obra. Cuida la estética y el orden.</p></div><div class="bg-white p-3 rounded-xl border-l-4 border-l-green-500 shadow-sm"><h4 class="font-bold text-sm text-green-800">TÉCNICO</h4><p class="text-xs text-gray-600">Asegura que todo se AGUANTE. Montaje y seguridad.</p></div><div class="bg-white p-3 rounded-xl border-l-4 border-l-orange-500 shadow-sm"><h4 class="font-bold text-sm text-orange-800">COMUNICADOR</h4><p class="text-xs text-gray-600">Hace que la obra HABLE. Crea QR, cartelas y explica.</p></div></div>' }
+        };
+
+        // --- 3. HELPERS (DEFINIDOS ANTES DE USAR) ---
+        const teacherNote = (text) => `<div class="mt-4 mb-4 p-3 bg-[#EEF2FF] border-l-4 border-[#6366F1] rounded-r-lg"><h5 class="text-[10px] font-bold text-[#4338ca] uppercase mb-1 flex items-center gap-1"><i data-lucide="feather" class="w-3 h-3"></i> Veredicto del Gremio</h5><p class="text-xs text-gray-600 italic">"${text}"</p></div>`;
+
+        const autoEvalTemplate = `
+            <div class="mt-6 pt-4 border-t border-gray-100 bg-gray-50 rounded-xl p-4">
+                <h4 class="text-xs font-bold uppercase text-[#E66C48] mb-3 border-b border-gray-200 pb-1">Mi Reflexión Alquímica</h4>
+                <div class="flex justify-between items-center mb-4"><span class="text-xs text-gray-600 font-bold">Autocalificación (0-10):</span><select class="text-xs bg-white border border-gray-200 rounded px-2 py-1"><option>5 - Suficiente</option><option>6 - Bien</option><option>7 - Notable</option><option>8 - Notable Alto</option><option>9 - Excelente</option><option>10 - Maestro Alquimista</option></select></div>
+                <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">Mi trabajo en equipo hoy:</label><div class="flex gap-2"><label class="text-[10px] flex items-center gap-1 bg-white border border-gray-200 px-3 py-1 rounded-full cursor-pointer"><input type="radio" name="team${Math.random()}" class="accent-[#E66C48]"> Necesité ayuda</label><label class="text-[10px] flex items-center gap-1 bg-white border border-gray-200 px-3 py-1 rounded-full cursor-pointer"><input type="radio" name="team${Math.random()}" class="accent-[#E66C48]"> Colaboré</label><label class="text-[10px] flex items-center gap-1 bg-white border border-gray-200 px-3 py-1 rounded-full cursor-pointer"><input type="radio" name="team${Math.random()}" class="accent-[#E66C48]"> Lideré</label></div></div>
+                <div class="mb-2"><label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Feedback de la Misión (¿Te ha motivado? ¿Qué mejorarías?):</label><textarea class="w-full text-xs p-3 border border-gray-200 rounded-lg bg-white resize-none" rows="2" placeholder="Tu voz ayuda a mejorar el Gremio..."></textarea></div>
+            </div>
+        `;
+
+        // NUEVA FUNCIÓN PARA GENERAR BOTONES DE CARGA ESPECÍFICOS
+        const createUploads = (items) => {
+            return `<div class="mt-4"><p class="text-[10px] font-bold text-gray-400 uppercase mb-2">Evidencias Requeridas</p><div class="grid grid-cols-3 gap-2">` + 
+            items.map(item => `
+                <button onclick="triggerUpload('${item.name}')" class="flex flex-col items-center justify-center p-2 bg-white border border-dashed border-gray-300 rounded-xl hover:border-[#E66C48] hover:bg-[#FFF4E6] transition-all text-center group h-24">
+                    <span class="text-xl mb-1">${item.icon}</span>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight group-hover:text-[#E66C48]">${item.name}</span>
+                    <i data-lucide="upload-cloud" class="w-3 h-3 text-gray-300 mt-1 group-hover:text-[#E66C48]"></i>
+                </button>
+            `).join('') + `</div></div>`;
+        };
+
+        const uploadBtn = `<button onclick="triggerUpload()" class="student-upload-btn group"><i data-lucide="upload-cloud" class="w-4 h-4 group-hover:-translate-y-1 transition-transform"></i> 📤 Entregar Trabajo Terminado</button>`;
+
+        // --- 4. CONTENIDO VISTAS ---
+        const studentContent = {
+            header: `<div class="relative"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Ej01&backgroundColor=e6e6e6" alt="Avatar" class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-white"><div class="absolute -bottom-1 -right-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md border-2 border-[#F7F7F5]">NV.2</div></div><div><h1 class="font-heading text-lg font-bold leading-tight">Hola, Alumno Ej01</h1><div class="flex items-center gap-2 mt-1"><span class="text-[10px] font-semibold opacity-50 tracking-wide uppercase">Oficial del Gremio • Técnico</span></div></div>`,
+            nav: `<button onclick="switchView('home')" class="nav-item active flex flex-col items-center justify-center w-1/4 p-1 rounded-xl transition-all" id="nav-home"><i data-lucide="layout-dashboard" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Inicio</span></button><button onclick="switchView('eco')" class="nav-item flex flex-col items-center justify-center w-1/4 p-1 rounded-xl transition-all" id="nav-eco"><i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Bitácora</span></button><button onclick="switchView('rubric')" class="nav-item flex flex-col items-center justify-center w-1/4 p-1 rounded-xl transition-all" id="nav-rubric"><i data-lucide="map" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Expediciones</span></button><button onclick="switchView('resources')" class="nav-item flex flex-col items-center justify-center w-1/4 p-1 rounded-xl transition-all" id="nav-resources"><i data-lucide="library" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Recursos</span></button>`,
+            views: {
+                home: `
+                    <div class="card-modern p-6 mb-6 bg-gradient-to-br from-white to-[#F2F4F3] border-l-4 border-l-[#E66C48]">
+                        <h2 class="font-heading text-xl font-bold mb-2">Manifiesto del Alquimista</h2>
+                        <p class="text-sm text-gray-600 mb-4 leading-relaxed font-medium">"Aquí nada es basura. Todo es materia esperando una segunda oportunidad. En este curso usamos la tecnología no para crear mundos falsos, sino para revelar la belleza oculta de lo que otros desechan."</p>
+                        <div class="grid grid-cols-3 gap-2 text-center text-[10px] font-bold uppercase tracking-wide">
+                            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center"><span class="text-[#E66C48] text-xl mb-1">👁️</span>MIRAR</div>
+                            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center"><span class="text-[#2C3E36] text-xl mb-1">🛠️</span>TRANSFORMAR</div>
+                            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center"><span class="text-[#9FB8AD] text-xl mb-1">📢</span>COMUNICAR</div>
+                        </div>
+                    </div>
+                    <div class="card-modern p-5 flex items-center justify-between bg-white mb-6"><div><p class="text-[10px] font-bold uppercase tracking-wider text-[#E66C48] mb-1">Diagnóstico Material</p><h2 class="font-heading text-2xl font-bold text-gray-900">PIEDRA</h2><p class="text-xs text-gray-500 font-medium mt-0.5">"Resiliencia y base sólida"</p></div><div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-2xl shadow-inner">🪨</div></div>
+                    <div class="card-modern p-6"><div class="flex items-center justify-between mb-2"><h3 class="font-heading font-bold text-sm">Compromiso Ético</h3><div class="flex items-center gap-1.5 text-[10px] font-bold text-[#2E5C38] bg-[#D4E2D4] px-2 py-1 rounded-md"><i data-lucide="shield-check" class="w-3 h-3"></i> ACTIVO</div></div><p class="text-xs text-gray-500 mb-4 leading-tight italic border-l-2 border-[#E66C48] pl-2">"Prometo cuidar las herramientas como mi propia mano, respetar el material del gremio y no dejar huella negativa en el entorno."</p></div>`,
+                eco: `
+                    <h2 class="font-heading text-xl font-bold mb-4">Diario de Campo</h2><div class="flex p-1 bg-white rounded-full border border-gray-100 mb-6 w-fit mx-auto shadow-sm"><button onclick="switchTab('register')" class="pill-tab active" id="tab-register">Hoy</button><button onclick="switchTab('nursery')" class="pill-tab" id="tab-nursery">Mi Vivero</button></div>
+                    <div id="content-register" class="fade-in"><div class="card-modern p-6 space-y-6"><div><label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 text-center">¿Cuál es tu Clima Interior?</label><div class="flex justify-between gap-2 px-2"><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">☁️</div><span class="text-[9px]">Nublado</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">☀️</div><span class="text-[9px]">Sol</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">⚡</div><span class="text-[9px]">Rayo</span></label><label class="mood-label"><input type="radio" name="mood" class="hidden mood-radio"><div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl transition-all hover:bg-gray-50">🌱</div><span class="text-[9px]">Crece</span></label></div></div><div><label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">La Semilla</label><textarea class="input-eco min-h-[120px] resize-none" placeholder="Hoy he aprendido..."></textarea></div><button onclick="triggerUpload('Imágenes del Día')" class="w-full flex items-center justify-center p-3 bg-white border border-dashed border-gray-300 rounded-xl hover:border-[#E66C48] hover:bg-[#FFF4E6] transition-all text-center group mb-4"><span class="text-xs font-bold text-gray-600 group-hover:text-[#E66C48] mr-2">Subir Imágenes del Día</span><i data-lucide="camera" class="w-4 h-4 text-gray-300 group-hover:text-[#E66C48]"></i></button><button onclick="saveEco()" class="w-full py-4 rounded-2xl bg-[#2C3E36] text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2"><span>Plantar Idea</span><i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div>
+                    <div id="content-nursery" class="hidden fade-in"><div class="relative w-full h-48 rounded-[32px] overflow-hidden mb-6 shadow-lg group"><img src="https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6"><div><p class="text-[10px] text-white/80 font-bold uppercase tracking-widest mb-1">Registro Personal</p><h3 class="text-white font-heading font-bold text-lg">Vivero de Reflexiones</h3></div></div></div><div class="grid grid-cols-2 gap-3" id="plant-grid"><div class="card-modern p-4 border-l-4 border-l-green-500"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mb-3">🌱</div><p class="text-[10px] text-gray-400 font-bold mb-1">12 OCT</p><p class="text-xs font-bold text-gray-800 line-clamp-2">El plástico puede ser poético...</p></div></div></div>`,
+                rubric: `
+                    <h2 class="font-heading text-xl font-bold mb-6">Expediciones en Curso</h2>
+                    <div class="space-y-8 pb-24"> <!-- Añadido pb-24 para dar espacio al final y evitar solapamiento con la nav inferior -->
+                        
+                        <!-- 1.er TRIMESTRE -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 pl-2">1.er TRIMESTRE: EJE MIRAR</h3>
+                            
+                            <!-- UP 1 -->
+                            <div class="card-modern overflow-hidden mb-3">
+                                <div class="p-4 bg-white border-b border-gray-100 flex justify-between items-center"><div><h4 class="font-bold text-sm">UP 1. El lenguaje de la materia descartada</h4><span class="badge badge-done">8.8</span></div></div>
+                                <div class="px-4 py-2 bg-gray-50 border-b border-gray-100"><p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Micro-taller 1: "La piel de las cosas"</p></div>
+                                
+                                <!-- SA 1.1 -->
+                                <details class="group border-b border-gray-50"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 1.1. Semillero Personal</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Simbolismo</td><td class="level-4 level-selected">La selección crea una narrativa profunda y personal. Coherencia total.</td><td>Identidad clara. Narrativa comprensible.</td><td>Conexión difusa o poco justificada.</td></tr><tr><td class="col-criterio">Materia</td><td class="level-4 level-selected">Uniones invisibles, resistentes y limpias. Transformación total del residuo.</td><td>Uniones correctas y estables. El material reciclado se integra bien en el conjunto.</td><td>Exceso de pegamento visible o uniones frágiles.</td></tr><tr><td class="col-criterio">Hapticidad</td><td class="level-4">El código táctil comunica emociones complejas. Mecanismo perfecto.</td><td class="level-selected">Las texturas elegidas se corresponden con las emociones básicas. El mecanismo funciona.</td><td>Hay texturas, pero no se diferencian claramente al tacto. El mecanismo se atasca.</td></tr></tbody></table>${teacherNote("Narrativa excelente. Cuidado con el exceso de pegamento en la base.")}${autoEvalTemplate}${createUploads([{name:'Foto Bocetos', icon:'📓'}, {name:'Foto Semillero Terminado', icon:'📸'}])}</div></details>
+                                
+                                <!-- SA 1.2 -->
+                                <details class="group"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 1.2. El gabinete del explorador urbano</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Frottage</td><td class="level-4">Los frottages capturan la textura con nitidez y riqueza de matices. Presión uniforme.</td><td class="level-selected">Los frottages son claros y permiten identificar la textura original. Técnica correcta.</td><td>Algunos registros son borrosos, muy suaves o el papel se ha roto por exceso de presión.</td></tr><tr><td class="col-criterio">Mirada</td><td class="level-4 level-selected">La colección de hallazgos muestra una mirada poética y singular sobre el centro ("arqueología").</td><td>La selección de objetos/huellas es variada y cumple con la búsqueda de "heridas" del edificio.</td><td>La selección es obvia o repetitiva (ej: solo texturas de suelo). Poca profundidad.</td></tr><tr><td class="col-criterio">Montaje</td><td class="level-4">El montaje sobre el cartón es impecable. Composición equilibrada y etiquetado creativo.</td><td class="level-selected">Ordenado y limpio. Etiquetas claras.</td><td>Caótico o descuidado. Faltan etiquetas.</td></tr></tbody></table>${teacherNote("Frottages muy nítidos. Buen ojo arqueológico.")}${autoEvalTemplate}${createUploads([{name:'Galería de Texturas', icon:'🧱'}, {name:'Foto Gabinete Final', icon:'🖼️'}])}</div></details>
+                            </div>
+
+                            <!-- UP 2 -->
+                            <div class="px-2 space-y-2 opacity-50 mb-3">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 2. La paleta de colores de nuestro entorno</span><span class="text-[9px] uppercase">Micro-taller 2: "Alfabetización sensorial del color"</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
+                            </div>
+
+                            <!-- UP 3 (DESBLOQUEADA) -->
+                            <div class="card-modern overflow-hidden mb-3 border-l-4 border-l-[#E66C48]">
+                                <div class="p-4 bg-white border-b border-gray-100 flex justify-between items-center"><div><h4 class="font-bold text-sm">UP 3. Cartografías de nuestro consumo</h4><span class="badge badge-progress">Pendiente</span></div></div>
+                                
+                                <!-- SA 3.1 -->
+                                <details class="group border-b border-gray-50"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 3.1. Mi huella visual</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><div class="p-4 text-xs text-gray-500 italic">Rúbrica en desarrollo...</div>${autoEvalTemplate}${createUploads([{name:'Registro de Marcas', icon:'📝'}, {name:'Reflexión', icon:'🧠'}])}</div></details>
+                                
+                                <!-- SA 3.2 -->
+                                <details class="group border-b border-gray-50"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 3.2. Collage de consumo</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><div class="p-4 text-xs text-gray-500 italic">Rúbrica en desarrollo...</div>${autoEvalTemplate}${createUploads([{name:'Foto Collage Final', icon:'🖼️'}])}</div></details>
+
+                                <!-- SA 3.3 -->
+                                <details class="group"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 3.3. Postal Solidaria (Transversal)</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><div class="p-4 text-xs text-gray-500 italic">Rúbrica en desarrollo...</div>${autoEvalTemplate}${createUploads([{name:'Diseño Postal', icon:'✉️'}, {name:'Mensaje', icon:'✍️'}])}</div></details>
+                            </div>
+                        </div>
+
+                        <!-- 2.º TRIMESTRE -->
+                        <div>
+                            <h3 class="text-xs font-bold text-[#E66C48] uppercase tracking-widest mb-4 pl-2">2.º TRIMESTRE: EJE TRANSFORMAR</h3>
+                            
+                            <!-- UP 4 -->
+                            <div class="px-2 mb-3">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 4. El Esqueleto de la Materia</span><span class="text-[9px] uppercase">Micro-taller 3: "Ingeniería de Papel"</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
+                            </div>
+
+                            <!-- UP 5 -->
+                            <div class="card-modern overflow-hidden border-[#2C3E36]">
+                                <div class="p-4 bg-[#2C3E36] text-white flex justify-between"><div><h4 class="font-bold text-sm">UP 5. Alquimia</h4><span class="badge badge-progress">En Progreso</span></div></div>
+                                <div class="px-4 py-2 bg-gray-50 border-b border-gray-100"><p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Micro-taller 4: "Ética y técnica de la IA/RA"</p></div>
+                                
+                                <!-- 5.1 -->
+                                <details class="group border-b border-gray-100" open><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.1. Laboratorio de Materiales</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Ingeniería</td><td class="level-4">El tótem es autoportante, robusto y desafía la gravedad con equilibrio complejo. Uniones ingeniosas.</td><td>El tótem se mantiene en pie por sí mismo. Las uniones son correctas y funcionales.</td><td>El tótem necesita apoyos externos para no caer o es muy frágil al tacto.</td></tr><tr><td class="col-criterio">Reciclaje</td><td class="level-4">Transformación radical del residuo: no parece "basura". Exploración profunda de las propiedades físicas.</td><td>Buen uso del material reciclado. Se nota intencionalidad en la selección de formas.</td><td>El material se reconoce demasiado (ej: una botella es solo una botella). Poca transformación.</td></tr><tr><td class="col-criterio">Hapticidad</td><td class="level-4">La obra ofrece un recorrido táctil rico y seguro (sin aristas cortantes). Pensada para ser "leída".</td><td>Texturas interesantes y seguras al tacto. Cumple con la accesibilidad básica.</td><td>Algunas zonas son interesantes al tacto, pero otras son planas o presentan riesgos.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Fotos Prototipos', icon:'🏗️'}, {name:'Foto Tótem Físico', icon:'🗿'}])}</div></details>
+                                
+                                <!-- 5.2 -->
+                                <details class="group border-b border-gray-100"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.2. El Oráculo de Gaia</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Prompting</td><td class="level-4">El prompt redactado es descriptivo, rico en adjetivos y referencias estilísticas. Imagen IA sorprendente.</td><td>El prompt es correcto y genera una imagen coherente con la escultura.</td><td>El prompt es muy básico (pocas palabras). La imagen IA tiene poca relación con la obra.</td></tr><tr><td class="col-criterio">Hibridación</td><td class="level-4">La vinculación en Artivive es perfecta. La capa digital expande el significado de la obra física.</td><td>La RA funciona correctamente. Hay relación visual entre lo físico y lo digital.</td><td>La RA funciona a veces o la imagen digital tapa por completo la escultura sin sentido.</td></tr><tr><td class="col-criterio">Defensa</td><td class="level-4">Argumentación brillante durante "La caída del oráculo". Vocabulario técnico preciso. Gran resiliencia.</td><td>Explica su obra con claridad y usa vocabulario correcto. Se adapta bien al "fallo".</td><td>Le cuesta explicar su obra sin el soporte visual. Vocabulario pobre o inseguridad.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Imagen IA (Prompt)', icon:'✨'}, {name:'Video Captura RA', icon:'📹'}, {name:'Audio-etiqueta', icon:'🎙️'}])}</div></details>
+                                
+                                <!-- 5.3 -->
+                                <details class="group"><summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between"><span class="text-xs font-bold text-gray-700">SA 5.3. Exposición Aumentada: Voces de la Tierra</span><i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i></summary><div class="bg-gray-50/50 rubric-container"><table class="rubric-table"><thead><tr><th class="col-criterio">Criterio</th><th class="col-nivel level-4">Nivel 4</th><th class="col-nivel">Nivel 3</th><th class="col-nivel">Nivel 2</th></tr></thead><tbody><tr><td class="col-criterio">Rol</td><td class="level-4">Liderazgo positivo. Cumple sus tareas con excelencia y ayuda a otros roles. Autonomía total.</td><td>Cumple correctamente con las tareas de su rol asignado. Buena autonomía.</td><td>Necesita supervisión constante para cumplir su tarea o interfiere en otros roles.</td></tr><tr><td class="col-criterio">Montaje</td><td class="level-4">El espacio expositivo está cuidado al detalle. Cartelas perfectas, códigos QR legibles, recorrido fluido.</td><td>Montaje limpio y ordenado. Los QR funcionan y las obras están seguras.</td><td>Montaje algo descuidado (cartelas torcidas, residuos en el suelo). Algún QR falla.</td></tr><tr><td class="col-criterio">Mediación</td><td class="level-4">Actitud proactiva con el público (comunidad). Explica el proyecto con entusiasmo y respeto.</td><td>Actitud correcta y respetuosa durante el evento. Responde dudas si se le pregunta.</td><td>Actitud pasiva o distraída durante la exposición. Poca interacción.</td></tr></tbody></table>${autoEvalTemplate}${createUploads([{name:'Diseño Cartela QR', icon:'🏷️'}, {name:'Cartel de Difusión', icon:'📢'}, {name:'Evidencia de Montaje', icon:'🏗️'}])}</div></details>
+                            </div>
+
+                            <!-- UP 6 -->
+                            <div class="px-2 space-y-2 opacity-50 mt-3">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 6. Exponiendo nuestra visión</span><span class="text-[9px] uppercase">Micro-taller 5: "Mediación y montaje"</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3.er TRIMESTRE -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 pl-2">3.er TRIMESTRE: EJE COMUNICAR</h3>
+                            
+                            <!-- UP 7 -->
+                            <div class="px-2 space-y-2 opacity-50">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 7. Artivismo: mensajes que transforman</span><span class="text-[9px] uppercase">Micro-taller 6: "Retórica visual"</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
+                            </div>
+
+                            <!-- UP 8 -->
+                            <div class="px-2 space-y-2 opacity-50 mt-2">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 8. El retrato de un objeto</span><span class="text-[9px] uppercase">SA 8.1, SA 8.2</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
+                            </div>
+
+                            <!-- UP 9 -->
+                            <div class="px-2 space-y-2 opacity-50 mt-2">
+                                <div class="locked-up">
+                                    <div><span class="block font-bold">UP 9. Proyecto final</span><span class="text-[9px] uppercase">Micro-taller 7: "Gestión de proyectos personales"</span></div>
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            resources: `
+                <h2 class="font-heading text-xl font-bold mb-6">Recursos</h2>
+                <div class="space-y-6">
+                    
+                    <div onclick="openMaterial('tabula_rasa')" class="card-modern p-4 bg-[#F2F4F3] border-gray-200 cursor-pointer mb-3 flex gap-3 items-center"><div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">⬜</div><div><h4 class="font-bold text-sm">La Tabula Rasa</h4><p class="text-[10px] text-gray-500 uppercase tracking-wide">Instrucciones Generales</p></div></div>
+
+                    <!-- UP 1 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">1.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 1. El lenguaje de la materia descartada</h4>
+                        </div>
+                        
+                        <!-- SA 1.1 -->
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 1.1. Semillero Personal</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <a href="https://www.guggenheim.org/artwork/artist/joseph-cornell" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">🏺</div></div><div class="flex-1"><span class="text-xs font-bold block">Joseph Cornell</span><span class="text-[9px] text-gray-500">Cajas poéticas</span></div></a>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <a href="https://cl.pinterest.com/atheeenea/sa-11-semillero/" target="_blank" class="material-item"><div class="material-icon icon-pin"><i data-lucide="layout-grid" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Inspiración: Pinterest</span></div><i data-lucide="external-link" class="w-3 h-3 text-gray-300"></i></a>
+                                    <!-- AÑADIDO MAPA IDENTIDAD -->
+                                    <div onclick="openMaterial('identity')" class="material-item"><div class="material-icon icon-tool"><i data-lucide="user" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Mapa de Identidad</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- SA 1.2 -->
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 1.2. El gabinete del explorador urbano</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <a href="https://www.metmuseum.org/art/collection/search/349339" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">✏️</div></div><div class="flex-1"><span class="text-xs font-bold block">Max Ernst</span><span class="text-[9px] text-gray-500">Frottage / Histoire Naturelle</span></div></a>
+                                    <a href="https://giuseppepenone.com/en/works/0480-pelle-di-grafite-riflesso-di-galena" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">🌳</div></div><div class="flex-1"><span class="text-xs font-bold block">Giuseppe Penone</span><span class="text-[9px] text-gray-500">Pelle di grafite</span></div></a>
+                                    <a href="https://www.instagram.com/juliapanades" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">🏺</div></div><div class="flex-1"><span class="text-xs font-bold block">Julià Panadés</span><span class="text-[9px] text-gray-500">Arqueología del presente</span></div></a>
+                                    <div class="px-2 text-[9px] text-gray-400 italic">Inspiración: Ana Mendieta y Andy Goldsworthy</div>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <div onclick="openMaterial('frottage')" class="material-item mb-1"><div class="material-icon icon-pdf"><i data-lucide="pencil" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Instrucciones: Frottage</span></div></div>
+                                    <a href="https://es.pinterest.com/atheeenea/12-frottagge/" target="_blank" class="material-item"><div class="material-icon icon-pin"><i data-lucide="layout-grid" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Pinterest: Texturas</span></div><i data-lucide="external-link" class="w-3 h-3 text-gray-300"></i></a>
+                                    <!-- AÑADIDO MAPA CIEGO SHEET -->
+                                    <div onclick="openMaterial('mapa_ciego_sheet')" class="material-item"><div class="material-icon icon-pdf"><i data-lucide="map" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Mapa Ciego IES</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 3 (COMPLETADA Y DESPLEGABLE) -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">1.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 3. Cartografías de nuestro consumo</h4>
+                        </div>
+                        
+                        <!-- SA 3.1 -->
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 3.1. Mi huella visual</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <div class="material-item opacity-50"><div class="material-icon icon-ref"><i data-lucide="search" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Logos y Marcas</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- SA 3.2 -->
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 3.2. Collage de consumo</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <a href="https://janeperkins.co.uk/" target="_blank" class="material-item"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">♻️</div></div><div class="flex-1"><span class="text-xs font-bold block">Jane Perkins</span><span class="text-[9px] text-gray-500">Retratos con objetos</span></div></a>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- SA 3.3 -->
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 3.3. Postal Solidaria (Transversal)</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <div class="material-item opacity-50"><div class="material-icon icon-ref"><i data-lucide="mail" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Mail Art</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 5 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">2.º Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 5. Alquimia</h4>
+                        </div>
+
+                        <!-- SA 5.1 -->
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 5.1. Laboratorio de Materiales</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <a href="https://amparosard.com/" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">⚪</div></div><div class="flex-1"><span class="text-xs font-bold block">Amparo Sard</span><span class="text-[9px] text-gray-500">Hapticidad y tensión</span></div></a>
+                                    <a href="https://www.instagram.com/juliapanades" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">🗿</div></div><div class="flex-1"><span class="text-xs font-bold block">Julià Panadés</span><span class="text-[9px] text-gray-500">Tótems y residuos</span></div></a>
+                                    <a href="https://sararegal.com/" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">🧪</div></div><div class="flex-1"><span class="text-xs font-bold block">Sara Regal</span><span class="text-[9px] text-gray-500">Diseño nuevos materiales</span></div></a>
+                                    <a href="https://miromallorca.com/es/el-color-i-la-seva-ombra-al-casal-solleric/" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><div class="w-4 h-4 flex items-center justify-center">⚫</div></div><div class="flex-1"><span class="text-xs font-bold block">Joan Miró</span><span class="text-[9px] text-gray-500">Sombra y escultura</span></div></a>
+                                    <a href="https://youtu.be/2Us4l2xh1LY" target="_blank" class="material-item mb-1"><div class="material-icon icon-ref"><i data-lucide="play" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Video: La escultura y el objeto</span></div></a>
+                                    <a href="https://youtu.be/UKW0dC2Uk4E" target="_blank" class="material-item bg-red-50 border-red-100"><div class="material-icon icon-tool text-red-600"><i data-lucide="wrench" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block text-red-800">Micro-taller: Laura Ameneiros</span><span class="text-[9px] text-red-600">Técnica de Assemblage</span></div></a>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <div onclick="openMaterial('seguridad')" class="material-item mb-1"><div class="material-icon icon-pdf"><i data-lucide="alert-triangle" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Normas Taller</span></div></div>
+                                    <a href="https://cl.pinterest.com/atheeenea/sa-51-laboratorio-de-materiales/" target="_blank" class="material-item"><div class="material-icon icon-pin"><i data-lucide="layout-grid" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Inspiración: Pinterest</span></div><i data-lucide="external-link" class="w-3 h-3 text-gray-300"></i></a>
+                                    <!-- AÑADIDO CATÁLOGO UNIONES -->
+                                    <div onclick="openMaterial('uniones')" class="material-item"><div class="material-icon icon-tool"><i data-lucide="hammer" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Catálogo de Uniones</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- SA 5.2 -->
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 5.2. El Oráculo de Gaia</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <div onclick="openMaterial('receta_prompts')" class="material-item mb-1"><div class="material-icon icon-doc"><i data-lucide="sparkles" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Receta Prompts</span></div></div>
+                                    <div onclick="openMaterial('artivive')" class="material-item"><div class="material-icon icon-vid"><i data-lucide="smartphone" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Conexión R.A. (Tutorial)</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- SA 5.3 -->
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 5.3. Exposición Aumentada: Voces de la Tierra</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <div onclick="openMaterial('fichas-roles')" class="material-item"><div class="material-icon icon-pdf"><i data-lucide="users" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Fichas Roles</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 6 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">2.º Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 6. Exponiendo nuestra visión</h4>
+                        </div>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 6.1. Curaduría colectiva</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <div class="material-item opacity-50"><div class="material-icon icon-tool"><i data-lucide="hammer" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Guía de Montaje</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 7 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">3.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 7. Artivismo</h4>
+                        </div>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 7.1. Mensaje visual con causa</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <div class="material-item opacity-50"><div class="material-icon icon-ref"><i data-lucide="image" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Banksy / Barbara Kruger</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 8 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">3.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 8. El retrato de un objeto</h4>
+                        </div>
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 8.1. Retrato simbólico</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 8.2. Diálogo entre objetos</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 9 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">3.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 9. Proyecto final</h4>
+                        </div>
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 9.1. Manifiesto visual</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 9.2. Presentación pública y Germinación final</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                </div>
+            `
+            } // Close views
+        }; // Close studentContent
+
+        const teacherContent = {
+            header: `<div class="relative"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Profe&backgroundColor=c0aede" alt="Avatar" class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-white"><div class="absolute -bottom-1 -right-1 bg-indigo-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md border-2 border-[#F3F4F6]">DOC</div></div><div><h1 class="font-heading text-lg font-bold leading-tight text-gray-800">Panel Docente</h1><div class="flex items-center gap-2 mt-1"><span class="text-[10px] font-semibold text-indigo-500 tracking-wide uppercase">2º ESO A • EPVA</span></div></div>`,
+            nav: `<button onclick="switchView('dashboard')" class="nav-item active flex flex-col items-center justify-center w-1/3 p-1 rounded-xl transition-all" id="nav-dashboard"><i data-lucide="bar-chart-2" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Control</span></button><button onclick="switchView('inbox')" class="nav-item flex flex-col items-center justify-center w-1/3 p-1 rounded-xl transition-all" id="nav-inbox"><i data-lucide="inbox" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Entregas</span></button><button onclick="switchView('students')" class="nav-item flex flex-col items-center justify-center w-1/3 p-1 rounded-xl transition-all" id="nav-students"><i data-lucide="users" class="w-5 h-5 mb-0.5"></i><span class="text-[9px] font-bold">Alumnos</span></button>`,
+            views: {
+                dashboard: `<div class="grid grid-cols-2 gap-4 mb-6"><div class="card-modern p-4 bg-white teacher-card border-l-indigo-500"><p class="text-[10px] font-bold text-gray-400 uppercase">Ecos de Hoy</p><h3 class="text-2xl font-bold text-gray-800">24/28</h3></div><div class="card-modern p-4 bg-white teacher-card border-l-orange-500"><p class="text-[10px] font-bold text-gray-400 uppercase">Clima Aula</p><div class="flex -space-x-2 mt-1"><span class="text-xl">☀️</span><span class="text-xl">☀️</span><span class="text-xl">⛅</span></div></div></div><h3 class="font-heading text-lg font-bold mb-4 text-gray-800">Últimas Actividades</h3><div class="space-y-3"><div class="card-modern p-3 flex items-center gap-3 bg-white"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-sm">🌱</div><div class="flex-1"><p class="text-xs font-bold text-gray-800">Alumno Ej01 ha plantado</p><p class="text-[10px] text-gray-500">Hace 5 min • SA 5.1</p></div></div><div class="card-modern p-3 flex items-center gap-3 bg-white"><div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm">📤</div><div class="flex-1"><p class="text-xs font-bold text-gray-800">Alumno Ej04 entregó</p><p class="text-[10px] text-gray-500">Hace 12 min • SA 1.2</p></div></div></div>`,
+                inbox: `<h2 class="font-heading text-xl font-bold mb-4 text-gray-800">Buzón de Entregas</h2><div class="dropzone mb-8 group"><div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="upload-cloud" class="w-6 h-6"></i></div><h3 class="text-sm font-bold text-gray-700">Subir Evidencia</h3></div><h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Pendientes de Evaluar</h3><div class="space-y-3"><div class="card-modern p-4 bg-white flex gap-4"><div class="w-16 h-16 bg-gray-200 rounded-lg bg-[url('https://images.unsplash.com/photo-1515463138280-67d1dcbf3175?auto=format&fit=crop&q=80&w=100')] bg-cover"></div><div class="flex-1"><div class="flex justify-between items-start"><div><h4 class="text-sm font-bold text-gray-800">Tótem Estructura</h4><p class="text-[10px] text-gray-500">Por: Alumno Ej07</p></div><button class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-full">Calificar</button></div></div></div></div>`,
+                students: `<h2 class="font-heading text-xl font-bold mb-4 text-gray-800">Mis Alumnos</h2><div class="card-modern bg-white overflow-hidden"><div class="student-row"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-gray-200 text-[10px] flex items-center justify-center font-bold">01</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej01</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Piedra">🪨</span></div><p class="text-[9px] text-gray-400 uppercase">Técnico</p></div></div><div class="text-right"><p class="text-xs font-bold text-indigo-600">NV. 2</p><p class="text-[9px] text-gray-400">850 XP</p></div></div><div class="student-row"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">02</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej02</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Cristal">💎</span></div><p class="text-[9px] text-gray-400 uppercase">Curador</p></div></div><div class="text-right"><p class="text-xs font-bold text-indigo-600">NV. 3</p><p class="text-[9px] text-gray-400">1200 XP</p></div></div><div class="student-row"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 text-xs flex items-center justify-center font-bold">03</div><div><div class="flex items-center gap-2"><p class="text-xs font-bold text-gray-800">Alumno Ej03</p><span class="text-[10px] bg-gray-100 px-1.5 rounded text-gray-500 border border-gray-200" title="Identidad Material: Barro">🧱</span></div><p class="text-[9px] text-gray-400 uppercase">Comunicador</p></div></div><div class="text-right"><p class="text-xs font-bold text-orange-600">NV. 2</p><p class="text-[9px] text-gray-400">920 XP</p></div></div></div>`
+            }
+        };
+
+        // --- 4. LÓGICA DE LA APP ---
+        let currentRole = 'student';
+
+        function render() {
+            const content = currentRole === 'student' ? studentContent : teacherContent;
+            document.getElementById('header-user').innerHTML = content.header;
+            document.getElementById('nav-bar').innerHTML = content.nav;
+            
+            if(currentRole === 'teacher') {
+                document.body.classList.add('teacher-mode');
+                document.getElementById('progress-section').classList.add('hidden');
+                switchView('dashboard');
+            } else {
+                document.body.classList.remove('teacher-mode');
+                document.getElementById('progress-section').classList.remove('hidden');
+                switchView('home');
+            }
+            lucide.createIcons();
+        }
+
+        function toggleRole() {
+            currentRole = currentRole === 'student' ? 'teacher' : 'student';
+            render();
+            showToast(currentRole === 'teacher' ? 'Modo Docente Activado' : 'Vista Alumno');
+        }
+
+        function switchView(viewName) {
+            const content = currentRole === 'student' ? studentContent : teacherContent;
+            document.querySelectorAll('.nav-item').forEach(el => { el.classList.remove('active', 'text-[#2C3E36]', 'text-indigo-600'); el.classList.add('text-gray-400'); });
+            const navBtn = document.getElementById(`nav-${viewName}`);
+            if(navBtn) navBtn.classList.add('active', currentRole === 'student' ? 'text-[#2C3E36]' : 'text-indigo-600');
+            
+            document.getElementById('main-content').innerHTML = content.views[viewName];
+            lucide.createIcons();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.pill-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById('content-register').classList.add('hidden');
+            document.getElementById('content-nursery').classList.add('hidden');
+            const target = document.getElementById(`content-${tabName}`);
+            target.classList.remove('hidden'); target.classList.add('fade-in');
+        }
+
+        function openMaterial(key) {
+            const content = sheets[key] || (materialsDB[key] ? materialsDB[key].content : null);
+            if(content) {
+                document.getElementById('modal-content').innerHTML = content;
+                document.getElementById('material-modal').classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+        function closeMaterialModal() { document.getElementById('material-modal').classList.add('hidden'); }
+        
+        // --- FUNCIONES INFO MODAL (NUEVO) ---
+        function openInfoModal() { document.getElementById('info-modal').classList.remove('hidden'); }
+        function closeInfoModal() { document.getElementById('info-modal').classList.add('hidden'); }
+
+        // --- FUNCIONES PHOTO MODE (NUEVO) ---
+        function togglePhotoMode() {
+            const navContainer = document.getElementById('nav-container');
+            const headerActions = document.getElementById('header-actions');
+            
+            if (navContainer.classList.contains('translate-y-full')) {
+                // Restaurar
+                navContainer.classList.remove('translate-y-full', 'opacity-0');
+                headerActions.classList.remove('opacity-0', 'pointer-events-none');
+                showToast('Modo Normal');
+            } else {
+                // Ocultar
+                navContainer.classList.add('translate-y-full', 'opacity-0');
+                headerActions.classList.add('opacity-0', 'pointer-events-none');
+                showToast('Modo Foto Activado');
+            }
+        }
+
+        function saveEco() { showToast('¡Idea plantada!'); document.getElementById('xp-bar').style.width = '85%'; }
+        
+        // Actualizado para recibir el nombre del archivo
+        function triggerUpload(itemName) { showToast('Subiendo: ' + itemName); }
+        
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.remove('-translate-y-20', 'opacity-0');
+            setTimeout(() => t.classList.add('-translate-y-20', 'opacity-0'), 2500);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', render);
+    </script>
+</body>
+</html>
         /* Interfaz Moderna (App) */
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&family=DM+Sans:wght@400;500;700&display=swap');
         /* Estilo Científico (Láminas) */
@@ -897,3 +1814,4 @@
     </script>
 </body>
 </html>
+
