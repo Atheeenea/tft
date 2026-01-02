@@ -217,7 +217,7 @@
         // 1. DATA: LÁMINAS CIENTÍFICAS (HTML PURO)
         // ==========================================
         const sheets = {
-            frottage: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 1.2</span><span>TÉCNICA</span></div><h1 class="sci-h1">FROTTAGE</h1><p class="text-center italic text-sm mb-6">"La piel de la materia."</p><div class="grid grid-cols-2 gap-4"><div class="sci-box flex flex-col items-center text-center"><span class="sci-label">ÁNGULO</span><i data-lucide="edit-3" class="w-12 h-12 mb-2 sci-icon rotate-45"></i><p class="sci-mono text-xs text-gray-600 leading-tight">Usa la barra tumbada (45º), nunca la punta.</p></div><div class="sci-box flex flex-col items-center text-center"><span class="sci-label">PRESIÓN</span><i data-lucide="move-diagonal" class="w-12 h-12 mb-2 sci-icon"></i><p class="sci-mono text-xs text-gray-600 leading-tight">Firme y constante. Busca el relieve, no lo liso.</p></div></div><div class="mt-4 border-t-2 border-dashed border-gray-400 pt-4"><h2 class="sci-h2">ESTRATIGRAFÍA</h2><ul class="sci-mono text-xs list-disc pl-4 space-y-2"><li><strong>Matriz:</strong> Objeto con textura (moneda, madera, pared).</li><li><strong>Soporte:</strong> Papel fino o papel de seda.</li><li><strong>Herramienta:</strong> Barra de grafito, ceras o carboncillo.</li></ul></div><p class="sci-hand text-center mt-8">¡Busca la herida, no lo liso!</p></div>`,
+            frottage: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 1.2</span><span>TÉCNICA</span></div><h1 class="sci-h1">FROTTAGE</h1><p class="text-center italic text-sm mb-6">"La piel de la materia."</p><div class="grid grid-cols-2 gap-4"><div class="sci-box flex flex-col items-center text-center"><span class="sci-label">ÁNGULO</span><i data-lucide="edit-3" class="w-12 h-12 mb-2 sci-icon"></i><p class="sci-mono text-xs text-gray-600 leading-tight">Usa la barra tumbada (45º), nunca la punta.</p></div><div class="sci-box flex flex-col items-center text-center"><span class="sci-label">PRESIÓN</span><i data-lucide="move-diagonal" class="w-12 h-12 mb-2 sci-icon"></i><p class="sci-mono text-xs text-gray-600 leading-tight">Firme y constante. Busca el relieve, no lo liso.</p></div></div><div class="mt-4 border-t-2 border-dashed border-gray-400 pt-4"><h2 class="sci-h2">ESTRATIGRAFÍA</h2><ul class="sci-mono text-xs list-disc pl-4 space-y-2"><li><strong>Matriz:</strong> Objeto con textura (moneda, madera, pared).</li><li><strong>Soporte:</strong> Papel fino o papel de seda.</li><li><strong>Herramienta:</strong> Barra de grafito, ceras o carboncillo.</li></ul></div><p class="sci-hand text-center mt-8">¡Busca la herida, no lo liso!</p></div>`,
             
             seguridad: `<div class="sci-sheet"><div class="flex justify-between font-mono text-[10px] opacity-60 mb-4"><span>FIG. 2.0</span><span>SEGURIDAD</span></div><h1 class="sci-h1">NORMAS TALLER</h1><div class="space-y-6"><div class="flex gap-4 items-center border-b border-black pb-4"><div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center bg-white shadow-sm"><i data-lucide="eye" class="w-8 h-8"></i></div><div><h2 class="sci-h2 mb-1">OJOS ABIERTOS</h2><p class="sci-mono text-xs">Si miras fuera, la mano para. Atención absoluta.</p></div></div><div class="flex gap-4 items-center border-b border-black pb-4"><div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center bg-gray-100"><i data-lucide="scissors" class="w-8 h-8"></i></div><div><h2 class="sci-h2 mb-1">VECTOR FUERA</h2><p class="sci-mono text-xs">Corta siempre hacia fuera del cuerpo y de los dedos.</p></div></div><div class="flex gap-4 items-center"><div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center bg-white"><i data-lucide="trash-2" class="w-8 h-8"></i></div><div><h2 class="sci-h2 mb-1">RETORNO</h2><p class="sci-mono text-xs">Clasifica el residuo. El orden es parte de la seguridad.</p></div></div></div><div class="mt-8 p-4 border-4 border-double border-red-800 bg-red-50 text-center"><p class="sci-mono text-sm text-red-900 font-bold uppercase tracking-tighter">ZONA ROJA: CÚTER CERRADO SI NO SE ESTÁ USANDO.</p></div></div>`,
             
@@ -535,6 +535,98 @@
                                     <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
                                     <div onclick="openMaterial('fichas-roles')" class="material-item"><div class="material-icon icon-pdf"><i data-lucide="users" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Fichas Roles</span></div></div>
                                 </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 6 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">2.º Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 6. Exponiendo nuestra visión</h4>
+                        </div>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 6.1. Curaduría colectiva</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Suministros</p>
+                                    <div class="material-item opacity-50"><div class="material-icon icon-tool"><i data-lucide="hammer" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Guía de Montaje</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 7 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">3.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 7. Artivismo</h4>
+                        </div>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 7.1. Mensaje visual con causa</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase mb-2 pl-1">Referencias</p>
+                                    <div class="material-item opacity-50"><div class="material-icon icon-ref"><i data-lucide="image" class="w-4 h-4"></i></div><div class="flex-1"><span class="text-xs font-bold block">Banksy / Barbara Kruger</span></div></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 8 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">3.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 8. El retrato de un objeto</h4>
+                        </div>
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 8.1. Retrato simbólico</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 8.2. Diálogo entre objetos</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- UP 9 -->
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">3.er Trimestre</span>
+                            <h4 class="font-bold text-sm text-gray-800">UP 9. Proyecto final</h4>
+                        </div>
+                        <details class="group border-b border-gray-100">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 9.1. Manifiesto visual</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center">
+                                <span class="text-xs font-bold">SA 9.2. Presentación pública</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 chevron transition-transform"></i>
+                            </summary>
+                            <div class="p-3 bg-gray-50/50 space-y-3">
+                                <div class="material-item opacity-50"><span class="text-xs italic text-gray-400">Contenido pendiente...</span></div>
                             </div>
                         </details>
                     </div>
